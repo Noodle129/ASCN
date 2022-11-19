@@ -1,0 +1,53 @@
+# Login via SSH
+# ssh root@your_server_ip
+
+# Create a new user and follow prompts
+# adduser <user>
+
+# Add user to superuser group to unlock admin privileges
+#usermod -aG sudo <user>
+
+# Then log in as the new user
+#su - <user>
+
+#vinha no tutorial, fazemos????
+
+# Add the NodeSource APT repository for Node 16
+- name: Add NodeSource APT repository for Node 16
+  become: true
+  apt_repository:
+    repo: deb https://deb.nodesource.com/node_16.x
+
+#update apt cache
+- name: Update system packages
+  become: true
+  apt:
+    update_cache: yes
+    upgrade: yes
+
+- name: Install Ghost Pre Requisites
+  become: true
+  #flag -y metee !!!!
+  apt:
+    name: "{{ item }}"
+    state: latest
+  loop: "{{ ghost_packages }}"
+
+- name: Install Ghost-CLI
+  become: true
+  shell: npm install ghost-cli@latest -g
+
+- name: Create Ghost directory
+  become: true
+  file:
+    path: /var/www/ghost
+    state: directory
+    owner: user????
+    mode: 0755
+
+- name: Install Ghost
+  shell: ghost install
+  args:
+    chdir: /var/www/ghost
+
+

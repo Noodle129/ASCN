@@ -1,0 +1,8 @@
+
+#prerequirement for ghost
+ghost_packages:
+  - nginx
+  - mysql-server
+  - nodejs
+  - npm
+  #- systemd ???? teria de ter, mas é pacote sequer??
