@@ -5,7 +5,7 @@ all:
   # GKE cluster variables
   gcp_project: ghost-ascn-369115              # ID of GCP Project
   gcp_auth_kind: serviceaccount            # Do not change
-  gcp_cred_file: ../ghost-ascn-369115-b40df48eadef    # Path to service account keys (json file downloaded from GCP)
+  gcp_cred_file: ghost-ascn-369115-b40df48eadef.json    # Path to service account keys (json file downloaded from GCP)
 
   gcp_zone: us-central1-a
   gcp_image_type: ubuntu_containerd
