@@ -27,7 +27,7 @@
 
 - name: Install Ghost Pre Requisites
   become: true
-  #flag -y metee !!!!
+  #flag -y meter !!!!
   apt:
     name: "{{ item }}"
     state: latest
@@ -50,4 +50,18 @@
   args:
     chdir: /var/www/ghost
 
+- name: Insert user into Database
+  mysql_query:
+    login_db: ghost_db_name
+    query: update users set name={{user_ghost}}, password={{password_ghost}}, email={{email_ghost}}, status='active' where id=1;
 
+
+#execute mysql update
+- name: Update MySQL
+  become: true
+  shell:  update users set name={{user_ghost:}}, password={{password_ghost}}, email={{email_ghost:}}, status='active' where id=1;
+  single_transaction: yes
+
+
+
+# replace $ to \$

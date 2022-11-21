@@ -1,4 +1,3 @@
-
 #prerequirement for ghost
 ghost_packages:
   - nginx
@@ -6,3 +5,10 @@ ghost_packages:
   - nodejs
   - npm
   #- systemd ???? teria de ter, mas é pacote sequer??
+
+ghost_db_name: a?????
+
+#default user for ghost
+user_ghost: ascn
+password_ghost: \$2b\$10\$7MqQmsysAeQV6sDw0.CdNe07uyPr7pQbyQq.g2nTYW8rq0pZqVaSO #123456
+email_ghost: ascn@example.com

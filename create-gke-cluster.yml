@@ -2,7 +2,7 @@
 # Playbook to create GKE cluster
 
 - name: Create a GKE cluster
-  hosts: localhost
+  hosts_all: yes ??????????
   gather_facts: false
   roles:
       - gke_cluster_create
