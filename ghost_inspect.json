@@ -1,0 +1,127 @@
+[
+    {
+        "Id": "sha256:be7fd4638d1811daa6c301a1d2a567744a3f86fb09bedf906e4de16daaa59ed4",
+        "RepoTags": [
+            "ghost:5.14.1"
+        ],
+        "RepoDigests": [
+            "ghost@sha256:159c16bfce68c7b9063908cca24089d99c2b59fe3d1695017f9052f21c042d79"
+        ],
+        "Parent": "",
+        "Comment": "",
+        "Created": "2022-09-13T18:08:28.319330476Z",
+        "Container": "76ad91a8ba6db85b0349a6cc99576c6c0c3ea0b01dbcab9459be0e111a1b805e",
+        "ContainerConfig": {
+            "Hostname": "76ad91a8ba6d",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "ExposedPorts": {
+                "2368/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "NODE_VERSION=16.17.0",
+                "YARN_VERSION=1.22.19",
+                "GOSU_VERSION=1.12",
+                "NODE_ENV=production",
+                "GHOST_CLI_VERSION=1.23.0",
+                "GHOST_INSTALL=/var/lib/ghost",
+                "GHOST_CONTENT=/var/lib/ghost/content",
+                "GHOST_VERSION=5.14.1"
+            ],
+            "Cmd": [
+                "/bin/sh",
+                "-c",
+                "#(nop) ",
+                "CMD [\"node\" \"current/index.js\"]"
+            ],
+            "Image": "sha256:dd68446cb1fa6c95bef42e58e413dc45b43264dcd2ee8987b26ce2b1a50a0a4b",
+            "Volumes": {
+                "/var/lib/ghost/content": {}
+            },
+            "WorkingDir": "/var/lib/ghost",
+            "Entrypoint": [
+                "docker-entrypoint.sh"
+            ],
+            "OnBuild": null,
+            "Labels": {}
+        },
+        "DockerVersion": "20.10.12",
+        "Author": "",
+        "Config": {
+            "Hostname": "",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "ExposedPorts": {
+                "2368/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "NODE_VERSION=16.17.0",
+                "YARN_VERSION=1.22.19",
+                "GOSU_VERSION=1.12",
+                "NODE_ENV=production",
+                "GHOST_CLI_VERSION=1.23.0",
+                "GHOST_INSTALL=/var/lib/ghost",
+                "GHOST_CONTENT=/var/lib/ghost/content",
+                "GHOST_VERSION=5.14.1"
+            ],
+            "Cmd": [
+                "node",
+                "current/index.js"
+            ],
+            "Image": "sha256:dd68446cb1fa6c95bef42e58e413dc45b43264dcd2ee8987b26ce2b1a50a0a4b",
+            "Volumes": {
+                "/var/lib/ghost/content": {}
+            },
+            "WorkingDir": "/var/lib/ghost",
+            "Entrypoint": [
+                "docker-entrypoint.sh"
+            ],
+            "OnBuild": null,
+            "Labels": null
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 471176998,
+        "VirtualSize": 471176998,
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/lib/docker/overlay2/0d25b9d64651adcf040ba30da0d26ab102efc90aaa8805444cbc47913be42b7f/diff:/var/lib/docker/overlay2/59816cce3475a4f729bf8a00173065e1996e75a95b50416b0d59d9fa819f3814/diff:/var/lib/docker/overlay2/fa646e67f04eab33eb480bef098ff9c3c5bd5461c6a542969f20c0e22852cb86/diff:/var/lib/docker/overlay2/8be5d63bff4aa51e4044e694f1dff8cc21e1bd0e5bbe11971b7e1cbf44951030/diff:/var/lib/docker/overlay2/c1c273ff89e3cc98d6bb1f29d1b08eefa41ec3b8614c9f6a1bf79f9c4158577a/diff:/var/lib/docker/overlay2/56222b5017fc897c85f4e199ee6ff878de45ca9901eeeaa0cab69e511edc98c0/diff:/var/lib/docker/overlay2/e42d3e69f7405b6291f3dcda28cc3a6cad1a6bca0421ac92853ba70d4d59eca0/diff:/var/lib/docker/overlay2/e8f740fcb18f51f6399f1ec28128ff51bdc5c0a089a8648903a12ebe2ef53f6d/diff",
+                "MergedDir": "/var/lib/docker/overlay2/11aa7e0367f27611e76c11a7be241aebb0848272fa696c5fa5ff2f6044b5a426/merged",
+                "UpperDir": "/var/lib/docker/overlay2/11aa7e0367f27611e76c11a7be241aebb0848272fa696c5fa5ff2f6044b5a426/diff",
+                "WorkDir": "/var/lib/docker/overlay2/11aa7e0367f27611e76c11a7be241aebb0848272fa696c5fa5ff2f6044b5a426/work"
+            },
+            "Name": "overlay2"
+        },
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:b45078e74ec97c5e600f6d5de8ce6254094fb3cb4dc5e1cc8335fb31664af66e",
+                "sha256:b34a262752ce8c96e724cb886b4eda5755301a34201a6cb9986aaba3803894eb",
+                "sha256:95cbe8d829a7aabf7fea7de5dc38a09d8c3c13b1b9735e419e71b1ffbd8a0c16",
+                "sha256:31bc06a86c1ce4388f43bc244773bb1aad8c6276ffe57df3500177866bf93acb",
+                "sha256:67e3a63a51c18f34e77ba92595a5be7aac0efa9f273d9b90713099df471123a2",
+                "sha256:6ef8f9c63288587702a9765a98510d2b0a198066d4b5f122ae2658c6ae6ca397",
+                "sha256:2acc54ac219e70baf86fd2e2dfaa05177e3dfe617e5370e6812c6a09c1e86a63",
+                "sha256:cb1198918598738ec36eb9a332a58ce0c0aa2288d85d480a384bd9fbb23d9eb7",
+                "sha256:8fb5801c57d0175abfefe94b5924a10362cc411e5b5e462de767677d20b6a5f6"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "0001-01-01T00:00:00Z"
+        }
+    }
+]

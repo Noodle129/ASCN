@@ -1,0 +1,58 @@
+
+
+fazer K8s cluster configuration and initialization ??????????
+
+
+confirmar que isto está certo!!!!!!!
+
+
+#sudo mkdir -p /mnt/data
+- name: Create /mnt/data directory
+  become: true
+  file:
+    path: /mnt/data
+    state: directory
+    mode: 0755
+
+
+#kubectl apply -f kubectl_files/persistent-volume.yml
+- name: Create Storage Class and PV objects
+  k8s:
+    state: present
+    definition: "{{ lookup('file', kubectl_files/persistent-volume.yml) }}"
+
+
+#kubectl apply -f kubectl_files/ghost/ghost-deployment.yml
+- name: Create Ghost Deployment
+  k8s:
+    state: present
+    definition: "{{ lookup('file', kubectl_files/ghost/ghost-deployment.yml) }}"
+
+- name: Create Ghost Service
+  k8s:
+    state: present
+    definition: "{{ lookup('file', kubectl_files/ghost/ghost-service.yml) }}"
+
+
+#delete database called mysql
+- name: Delete Database created by ghost
+  mysql_db:
+    name: mysql
+    state: absent
+
+
+#kubectl apply -f kubectl_files/db/db-deployment.yml
+- name: Create Database Deployment
+  k8s:
+    state: present
+    definition: "{{ lookup('file', kubectl_files/db/db-deployment.yml) }}"
+
+- name: Create Database PVC
+  k8s:
+    state: present
+    definition: "{{ lookup('file', kubectl_files/db/db-pvc.yml) }}"
+
+- name: Create Database Service
+  k8s:
+    state: present
+    definition: "{{ lookup('file', kubectl_files/db/db-service.yml) }}"
