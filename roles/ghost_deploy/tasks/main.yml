@@ -34,12 +34,23 @@ confirmar que isto está certo!!!!!!!
     definition: "{{ lookup('file', kubectl_files/ghost/ghost-service.yml) }}"
 
 
-#delete database called mysql
-- name: Delete Database created by ghost
+- name: Copy database created by Ghost to dump file
+  mysql_db:
+    state: dump
+    name: 
+      - mysql #nome da base de dados????
+    target: /mnt/data/dump.mysql.sql
+
+- name: Delete Database created by Ghost
   mysql_db:
     name: mysql
     state: absent
 
+# - name: Restore database
+#   community.mysql.mysql_db:
+#     name: my_db
+#     state: import
+#     target: /tmp/dump.sql.bz2
 
 #kubectl apply -f kubectl_files/db/db-deployment.yml
 - name: Create Database Deployment
@@ -56,3 +67,18 @@ confirmar que isto está certo!!!!!!!
   k8s:
     state: present
     definition: "{{ lookup('file', kubectl_files/db/db-service.yml) }}"
+
+- name: Restore database
+  mysql_db:
+    name: mysql
+    state: import
+    target: /mnt/data/dump.mysql.sql
+
+- name: Insert Blog admin row
+  mysql_query:
+    login_db: mysql
+    query: UPDATE users SET name=%s, password=%s, email=%s, status='active' where id=1;
+    positional_args:
+    - {{ user_ghost }}
+    - {{ password_ghost }}
+    - {{ email_ghost }}
