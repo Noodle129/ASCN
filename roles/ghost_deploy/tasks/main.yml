@@ -1,10 +1,8 @@
 
 
-fazer K8s cluster configuration and initialization ??????????
-
-
-confirmar que isto está certo!!!!!!!
-
+- name: Update apt-cache
+  apt:
+    - update_cache: true
 
 #sudo mkdir -p /mnt/data
 - name: Create /mnt/data directory
@@ -14,12 +12,113 @@ confirmar que isto está certo!!!!!!!
     state: directory
     mode: 0755
 
-
 #kubectl apply -f kubectl_files/persistent-volume.yml
 - name: Create Storage Class and PV objects
   k8s:
     state: present
     definition: "{{ lookup('file', kubectl_files/persistent-volume.yml) }}"
+
+
+# DATABASE + MySQL
+- name: Install MySQL
+  tags: db_mysql
+  apt:
+    name: mysql-server
+    state: present
+
+#kubectl apply -f kubectl_files/db/db-deployment.yml
+- name: Create Database Deployment
+  tags: db_mysql
+  k8s:
+    state: present
+    definition: "{{ lookup('file', kubectl_files/db/db-deployment.yml) }}"
+
+- name: Create Database PVC
+  tags: db_mysql
+  k8s:
+    state: present
+    definition: "{{ lookup('file', kubectl_files/db/db-pvc.yml) }}"
+
+- name: Create Database Service
+  tags: db_mysql
+  k8s:
+    state: present
+    definition: "{{ lookup('file', kubectl_files/db/db-service.yml) }}"
+
+- name: Insert Blog admin row
+  tags: db_mysql
+  mysql_query:
+    login_db: {{ database_name }}
+    query: UPDATE users SET name=%s, password=%s, email=%s, status='active' where id=1;
+    positional_args:
+    - {{ user_ghost }}
+    - {{ password_ghost }}
+    - {{ email_ghost }}
+
+
+
+
+
+
+
+
+
+swap???????
+
+
+#NGINX
+- name: Check if nginx is installed
+  tags: nginx
+  shell: dpkg -l | grep nginx
+  register: nginx_installed
+  ignore_errors: yes
+
+- name: Install nginx
+  tags: nginx
+  apt:
+    name: nginx
+    state: present
+  when: nginx_installed.rc != 0
+
+- name: Remove default nginx config
+  tags: nginx
+  become: true
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  when: nginx_installed.rc != 0
+
+
+
+
+
+
+- name: Install curl
+   tags: ghost_cli
+  become: true
+  apt:
+    name: curl
+    state: present
+
+# Install nodejs
+- name: Install nodejs
+  tags: ghost_cli
+  shell: curl -fsSL https://deb.nodesource.com/setup_14.x | \
+        sudo -E bash -; \
+        sudo apt-get install -y nodejs
+
+# Install ghost-cli
+- name: Install ghost-cli
+  tags: ghost_cli
+  npm: 
+    - name: ghost-cli
+    - global: true
+
+
+
+
+
+
 
 
 #kubectl apply -f kubectl_files/ghost/ghost-deployment.yml
@@ -34,51 +133,22 @@ confirmar que isto está certo!!!!!!!
     definition: "{{ lookup('file', kubectl_files/ghost/ghost-service.yml) }}"
 
 
-- name: Copy database created by Ghost to dump file
-  mysql_db:
-    state: dump
-    name: 
-      - mysql #nome da base de dados????
-    target: /mnt/data/dump.mysql.sql
+- name: Install Ghost
+  shell: ghost install {{ version_ghost }} --local --no-setup --
 
-- name: Delete Database created by Ghost
-  mysql_db:
-    name: mysql
-    state: absent
+- name: Configure Ghost
+  shell: ghost config \
+          --port {{ghost_port}} \
+          --ip {{ghost_ip}} \
+          --db mysql \
+          --dbhost localhost \ # ou o database_host????
+          --dbuser {{database_user}} \
+          --dbpass {{database_password}} \
+          --dbname {{database_name}} \
 
-# - name: Restore database
-#   community.mysql.mysql_db:
-#     name: my_db
-#     state: import
-#     target: /tmp/dump.sql.bz2
 
-#kubectl apply -f kubectl_files/db/db-deployment.yml
-- name: Create Database Deployment
-  k8s:
-    state: present
-    definition: "{{ lookup('file', kubectl_files/db/db-deployment.yml) }}"
 
-- name: Create Database PVC
-  k8s:
-    state: present
-    definition: "{{ lookup('file', kubectl_files/db/db-pvc.yml) }}"
 
-- name: Create Database Service
-  k8s:
-    state: present
-    definition: "{{ lookup('file', kubectl_files/db/db-service.yml) }}"
 
-- name: Restore database
-  mysql_db:
-    name: mysql
-    state: import
-    target: /mnt/data/dump.mysql.sql
 
-- name: Insert Blog admin row
-  mysql_query:
-    login_db: mysql
-    query: UPDATE users SET name=%s, password=%s, email=%s, status='active' where id=1;
-    positional_args:
-    - {{ user_ghost }}
-    - {{ password_ghost }}
-    - {{ email_ghost }}
+// no fim dar notify para dar restart no ghost

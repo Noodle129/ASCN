@@ -21,3 +21,9 @@ all:
 
   # Additional variables
   # ...
+  database_host: 127.0.0.1
+  database_name: ghost
+  database_user: root
+  database_password: 
+
+  version_ghost: 5.14.1

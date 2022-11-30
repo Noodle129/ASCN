@@ -25,12 +25,14 @@ spec:
         env:
         - name: MYSQL_ALLOW_EMPTY_PASSWORD
           value: "true"
+        - name: MYSQL_HOST
+          value: {{ database_host }}
         - name: MYSQL_DATABASE
-          value: mysql # valor retirado da imagem do ghost da base de dados original que foi apagado
+          value: {{ database_name }}
         - name: MYSQL_USER
-          value: mysql # valor retirado da imagem do ghost da base de dados original que foi apagado
+          value: {{ database_user }}
         - name: MYSQL_PASSWORD
-          value: #empty assim ou assim: "" ????????????
+          value: {{ database_password }} #empty assim ou assim: "" ????????????
         ports:
         - containerPort: 3306
         volumeMounts:
