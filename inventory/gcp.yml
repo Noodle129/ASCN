@@ -18,12 +18,16 @@ all:
   ghost_ip: <GHOST_SERVICE_IP>     # Needs to be updated
   ghost_port: <GHOST_PORT>         # Needs to be updated
 
+  ghost_namespace: ghostNamespace
 
   # Additional variables
   # ...
   database_host: 127.0.0.1
   database_name: ghost
   database_user: root
-  database_password: 
+  database_password: password
+
+#provavelmente nao e assim
+  ghost_url: http://{{ ghost_ip }}:{{ ghost_port }}
 
   version_ghost: 5.14.1

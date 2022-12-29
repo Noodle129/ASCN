@@ -1,5 +1,6 @@
 
 #default user for ghost
 user_ghost: ascn
-password_ghost: \$2b\$10\$7MqQmsysAeQV6sDw0.CdNe07uyPr7pQbyQq.g2nTYW8rq0pZqVaSO #123456
+#123456
+password_ghost: \$2b\$10\$7MqQmsysAeQV6sDw0.CdNe07uyPr7pQbyQq.g2nTYW8rq0pZqVaSO
 email_ghost: ascn@example.com
