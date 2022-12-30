@@ -62,37 +62,39 @@
 #
 
 
-#- name: Create Database Deployment
-#  shell: 'kubectl apply -f kubectl_files/db/db-deployment.yml'
+- name: Create Database Deployment
+  shell: 'kubectl apply -f kubectl_files/db/db-deployment.yml'
 
+- name: Create Database PVC & Pod
+  shell: 'kubectl apply -f kubectl_files/db/db-pvc-pod.yml'
 #
-#- name: Create Database Service
-#  shell: 'kubectl apply -f kubectl_files/db/db-service.yml'
+- name: Create Database Service
+  shell: 'kubectl apply -f kubectl_files/db/db-service.yml'
 #
-#- name: Create Ghost Deployment
-#  shell: 'kubectl apply -f kubectl_files/ghost/ghost-deployment.yml'
+- name: Create Ghost Deployment
+  shell: 'kubectl apply -f kubectl_files/ghost/ghost-deployment.yml'
 #
 - name: Create Ghost PVC
   shell: 'kubectl apply -f kubectl_files/ghost/ghost-pvc.yml'
-
-#- name: Create Ghost Service
-#  shell: 'kubectl apply -f kubectl_files/ghost/ghost-service.yml'
+##
+- name: Create Ghost Service
+  shell: 'kubectl apply -f kubectl_files/ghost/ghost-service.yml'
+##
+##
+- name: Wait for Ghost Image to be exposed
+  shell: 'kubectl get services'
+  register: ghost_image_ip
+  until: ghost_image_ip.stdout.find("ghost") != -1 and ghost_image_ip.stdout.find("<pending>") == -1
+  retries: 10
+  delay: 20
 #
+- name: Get Ghost Image IP
+  shell: 'kubectl get services'
+  register: ghost_image_ip
 #
-#- name: Wait for Ghost Image to be exposed
-#  shell: 'kubectl get services'
-#  register: ghost_image_ip
-#  until: ghost_image_ip.stdout.find("ghost") != -1 and ghost_image_ip.stdout.find("<pending>") == -1
-#  retries: 10
-#  delay: 20
-#
-#- name: Get Ghost Image IP
-#  shell: 'kubectl get services'
-#  register: ghost_image_ip
-#
-#- name: Display Ghost Image IP
-#  debug:
-#    msg: 'Ghost Image IP is \n{{ghost_image_ip.stdout}}'
+- name: Display Ghost Image IP
+  debug:
+    msg: 'Ghost Image IP is \n{{ghost_image_ip.stdout}}'
 #
 
 

@@ -65,20 +65,22 @@ spec:
         env:
         #- name: url
         #  value: "????"
-        - name: database__client
+        - name: database__client # tipo de database
           value: mysql
         - name: database__connection__database
-          value: ghost
-        - name: database__connection__host
-          value: mysql
+          value: ghost-database
+        #- name: database__connection__host
+        #  value: "127.0.0.1"
         - name: database__connection__user
-          value: root
+          value: ghost-user
         - name: database__connection__password
           value: password123
-        volumeMounts:
-        - name: ghost-persistent-storage
-          mountPath: /var/lib/ghost/content
-      volumes:
-      - name: ghost-persistent-storage
-        persistentVolumeClaim:
-          claimName: ghost-pv-claim
+        ports:
+        - containerPort: 2368
+#        volumeMounts:
+##        - name: ghost-persistent-storage
+##          mountPath: /var/lib/ghost/content
+#      volumes:
+#      - name: ghost-persistent-storage
+#        persistentVolumeClaim:
+#          claimName: ghost-content-pvc

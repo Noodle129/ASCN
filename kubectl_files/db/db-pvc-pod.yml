@@ -1,0 +1,139 @@
+#---
+## Deployment for MySQL
+#apiVersion: apps/v1
+#kind: Deployment
+#metadata:
+#  name: mysql-deployment
+#  labels:
+#    app: mysql
+#    tier: database
+#spec:
+#  replicas: 1
+#  selector:
+#    matchLabels:
+#      app: mysql
+#  strategy:
+#    type: Recreate
+#  template:
+#    metadata:
+#      labels:
+#        app: mysql
+#        tier: database
+#    spec:
+#      containers:
+#      - name: mysql
+#        image: mysql:latest
+#        env:
+#        - name: MYSQL_ALLOW_EMPTY_PASSWORD
+#          value: "true"
+#        - name: MYSQL_HOST
+#          value: {{ database_host }}
+#        - name: MYSQL_DATABASE
+#          value: {{ database_name }}
+#        - name: MYSQL_USER
+#          value: {{ database_user }}
+#        - name: MYSQL_PASSWORD
+#          value: {{ database_password }} #empty assim ou assim: "" ????????????
+#        ports:
+#        - containerPort: 3306
+#          name: mysql
+#        volumeMounts:
+#        - name: mysql-persistent-storage
+#          mountPath: /var/lib/mysql
+#      volumes:
+#      - name: mysql-persistent-storage
+#        persistentVolumeClaim:
+#          claimName: mysql-pv-claim
+
+#
+#---
+#apiVersion: apps/v1
+#kind: Deployment
+#metadata:
+#  name: mysql
+#  namespace: ghost
+#  labels:
+#    app: mysql
+#spec:
+#  replicas: 1
+#  selector:
+#    matchLabels:
+#      app: mysql
+#  template:
+#    metadata:
+#      labels:
+#        app: mysql
+#    spec:
+#      containers:
+#      - name: mysql
+#        image: mysql:5.7
+#        env:
+#        - name: MYSQL_ROOT_PASSWORD
+#          valueFrom:
+#            secretKeyRef:
+#              name: mysql-pass
+#              key: password
+#        - name: MYSQL_DATABASE
+#          value: ghost
+#        - name: MYSQL_USER
+#          value: ghost
+#        - name: MYSQL_PASSWORD
+#          valueFrom:
+#            secretKeyRef:
+#              name: mysql-pass
+#              key: password
+#        volumeMounts:
+#        - name: mysql-persistent-storage
+#          mountPath: /var/lib/mysql
+#      volumes:
+#      - name: mysql-persistent-storage
+#        persistentVolumeClaim:
+#          claimName: mysql-pv-claim
+#
+
+
+
+# https://cloud.google.com/kubernetes-engine/docs/concepts/persistent-volumes
+
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: standard-rwo
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: mysql-pod
+spec:
+  volumes:
+    - name: mysql-pvc-volume
+      persistentVolumeClaim:
+        claimName: mysql-pvc
+  containers:
+    - name: nginx-pod
+      image: nginx
+      volumeMounts:
+        - mountPath: "/usr/share/nginx/html"
+          name: mysql-pvc-volume
+      ports:
+        - containerPort: 3306
+          name: "nginx-port"
+        
+        
+
+
+
+
+
+
+
+
+

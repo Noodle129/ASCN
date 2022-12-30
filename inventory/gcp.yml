@@ -27,7 +27,7 @@ all:
   database_user: root
   database_password: password123
 
-#provavelmente nao e assim
+  #provavelmente nao e assim
   ghost_url: http://{{ ghost_ip }}:{{ ghost_port }}
 
   version_ghost: 5.14.1

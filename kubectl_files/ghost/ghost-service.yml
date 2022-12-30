@@ -28,8 +28,9 @@ metadata:
 spec:
   selector:
     app: ghost
+  type: NodePort
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 2368
-  type: LoadBalancer
+  - protocol: TCP
+    port: 2368
+    targetPort: 2368
+    nodePort: 30077
