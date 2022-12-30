@@ -38,64 +38,62 @@
 #  debug:
 #    msg: 'Ghost Image IP is \n{{ghost_image_ip.stdout}}'
 
-- name: Find GCE Persistent DiskS
-  shell: 'gcloud compute disks list'
-  register: EXISTENT_disks
-
-- name: Create MySQL GCE Persistent Disk if not exists
-  shell: 'gcloud compute disks create mysql-disk --size=10GB --zone={{ gcp_zone }}'
-  when: EXISTENT_disks.stdout == "mysql-disk"
-
-- name: Create Ghost GCE Persistent Disk if not exists
-  shell: 'gcloud compute disks create ghost-disk --size=10GB --zone={{ gcp_zone }}'
-  when: EXISTENT_disks.stdout == "ghost-disk"
-
-
-
-- name: Check NameSpace ghost Exists
-  shell: 'kubectl get namespaces | grep {{ghost_namespace}}'
-  register: EXISTENT_namespace
-
-- name: Create GHOST Namespace
-  shell: 'kubectl create namespace ghost'
-  when: EXISTENT_namespace.stdout == {{ghost_namespace}}
-
-
-
-- name: Create Storage Class and PV objects
-  shell: 'kubectl apply -f kubectl_files/persistent-volume.yml'
-
-- name: Create Database Deployment
-  shell: 'kubectl apply -f kubectl_files/db/db-deployment.yml'
-
-- name: Create Database PVC
-  shell: 'kubectl apply -f kubectl_files/db/db-pvc.yml'
-
-- name: Create Database Service
-  shell: 'kubectl apply -f kubectl_files/db/db-service.yml'
-
-- name: Create Ghost Deployment
-  shell: 'kubectl apply -f kubectl_files/ghost/ghost-deployment.yml'
-
-- name: Create Ghost Service
-  shell: 'kubectl apply -f kubectl_files/ghost/ghost-service.yml'
+#- name: Find GCE Persistent Disks
+#  shell: 'gcloud compute disks list'
+#  register: EXISTENT_disks
+#
+#- name: Create MySQL GCE Persistent Disk if not exists
+#  shell: 'gcloud compute disks create mysql-disk --size=10GB --zone={{ gcp_zone }}'
+#  when: EXISTENT_disks.stdout == "mysql-disk"
+#
+#- name: Create Ghost GCE Persistent Disk if not exists
+#  shell: 'gcloud compute disks create ghost-disk --size=10GB --zone={{ gcp_zone }}'
+#  when: EXISTENT_disks.stdout == "ghost-disk"
+#
+#
+#
+#- name: Check NameSpace ghost Exists
+#  shell: 'kubectl get namespaces | grep {{ghost_namespace}}'
+#  register: EXISTENT_namespace
+#
+#- name: Create GHOST Namespace
+#  shell: 'kubectl create namespace ghost'
+#  when: EXISTENT_namespace.stdout == {{ghost_namespace}}
+#
 
 
-- name: Wait for Ghost Image to be exposed
-  shell: 'kubectl get services'
-  register: ghost_image_ip
-  until: ghost_image_ip.stdout.find("ghost") != -1 and ghost_image_ip.stdout.find("<pending>") == -1
-  retries: 10
-  delay: 20
+#- name: Create Database Deployment
+#  shell: 'kubectl apply -f kubectl_files/db/db-deployment.yml'
 
-- name: Get Ghost Image IP
-  shell: 'kubectl get services'
-  register: ghost_image_ip
+#
+#- name: Create Database Service
+#  shell: 'kubectl apply -f kubectl_files/db/db-service.yml'
+#
+#- name: Create Ghost Deployment
+#  shell: 'kubectl apply -f kubectl_files/ghost/ghost-deployment.yml'
+#
+- name: Create Ghost PVC
+  shell: 'kubectl apply -f kubectl_files/ghost/ghost-pvc.yml'
 
-- name: Display Ghost Image IP
-  debug:
-    msg: 'Ghost Image IP is \n{{ghost_image_ip.stdout}}'
-
+#- name: Create Ghost Service
+#  shell: 'kubectl apply -f kubectl_files/ghost/ghost-service.yml'
+#
+#
+#- name: Wait for Ghost Image to be exposed
+#  shell: 'kubectl get services'
+#  register: ghost_image_ip
+#  until: ghost_image_ip.stdout.find("ghost") != -1 and ghost_image_ip.stdout.find("<pending>") == -1
+#  retries: 10
+#  delay: 20
+#
+#- name: Get Ghost Image IP
+#  shell: 'kubectl get services'
+#  register: ghost_image_ip
+#
+#- name: Display Ghost Image IP
+#  debug:
+#    msg: 'Ghost Image IP is \n{{ghost_image_ip.stdout}}'
+#
 
 
 

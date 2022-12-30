@@ -48,10 +48,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ghost
-  namespace: {{ghost_namespace}}
-  labels:
-    app: ghost
+  name: ghost-deployment
 spec:
   replicas: 1
   selector:
@@ -66,6 +63,8 @@ spec:
       - name: ghost
         image: ghost:5.14.1
         env:
+        #- name: url
+        #  value: "????"
         - name: database__client
           value: mysql
         - name: database__connection__database
@@ -73,12 +72,9 @@ spec:
         - name: database__connection__host
           value: mysql
         - name: database__connection__user
-          value: ghost
+          value: root
         - name: database__connection__password
-          valueFrom:
-            secretKeyRef:
-              name: mysql-pass
-              key: password
+          value: password123
         volumeMounts:
         - name: ghost-persistent-storage
           mountPath: /var/lib/ghost/content
