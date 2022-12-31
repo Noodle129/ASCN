@@ -97,39 +97,19 @@
 
 
 apiVersion: v1
-kind: PersistentVolumeClaim
+kind: PersistentVolume
 metadata:
-  name: mysql-pvc
+  name: mysql-data-pv
+  labels:
+    type: local
 spec:
+  storageClassName: manual #tentar mudar para dinamico 
+  capacity:
+    storage: 10Gi
   accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi
-  storageClassName: standard-rwo
----
-kind: Pod
-apiVersion: v1
-metadata:
-  name: mysql-pod
-spec:
-  volumes:
-    - name: mysql-pvc-volume
-      persistentVolumeClaim:
-        claimName: mysql-pvc
-  containers:
-    - name: nginx-pod
-      image: nginx
-      volumeMounts:
-        - mountPath: "/usr/share/nginx/html"
-          name: mysql-pvc-volume
-      ports:
-        - containerPort: 3306
-          name: "nginx-port"
-        
-        
-
-
+  - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data/mysql"
 
 
 

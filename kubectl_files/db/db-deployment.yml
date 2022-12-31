@@ -1,13 +1,15 @@
----
 kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: mysql-deployment
+  labels:
+    app: mysql
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: mysql
-  strategy:
+  strategy: #???? necessario?
     type: Recreate
   template:
     metadata:
@@ -17,6 +19,8 @@ spec:
       containers:
       - name: mysql
         image: mysql:8.0
+        ports:
+        - containerPort: 3306
         env:
         - name: MYSQL_ALLOW_EMPTY_PASSWORD
           value: "true"
@@ -26,16 +30,13 @@ spec:
           value: ghost-user
         - name: MYSQL_PASSWORD
           value: password123
-        ports:
-        - containerPort: 3306
-          name: mysql-port
         volumeMounts:
-        - name: mysql-pvc-volume
-          mountPath: /ur/share/nginx/html
+        - mountPath: /var/lib/mysql
+          name: mysql-data
       volumes:
-      - name: mysql-pvc-volume
+      - name: mysql-data
         persistentVolumeClaim:
-          claimName: mysql-pvc
+          claimName: mysql-data-pvc
 
 #
 #    - name: mysql

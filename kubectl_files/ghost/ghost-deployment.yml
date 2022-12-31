@@ -49,6 +49,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ghost-deployment
+  labels:
+    app: ghost
 spec:
   replicas: 1
   selector:
@@ -69,18 +71,16 @@ spec:
           value: mysql
         - name: database__connection__database
           value: ghost-database
-        #- name: database__connection__host
-        #  value: "127.0.0.1"
+        - name: database__connection__host # ???????
+          value: mysql
         - name: database__connection__user
           value: ghost-user
         - name: database__connection__password
           value: password123
-        ports:
-        - containerPort: 2368
-#        volumeMounts:
-##        - name: ghost-persistent-storage
-##          mountPath: /var/lib/ghost/content
-#      volumes:
-#      - name: ghost-persistent-storage
-#        persistentVolumeClaim:
-#          claimName: ghost-content-pvc
+        volumeMounts:
+        - mountPath: /var/lib/ghost/content/data
+          name: ghost-data
+      volumes:
+      - name: ghost-data
+        persistentVolumeClaim:
+          claimName: ghost-data-pvc
