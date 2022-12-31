@@ -1,6 +1,4 @@
-
-#default user for ghost
-user_ghost: ascn
+user_blogAdmin: ascn
 #123456
-password_ghost: \$2b\$10\$7MqQmsysAeQV6sDw0.CdNe07uyPr7pQbyQq.g2nTYW8rq0pZqVaSO
-email_ghost: ascn@example.com
+password_blogAdmin: \$2b\$10\$7MqQmsysAeQV6sDw0.CdNe07uyPr7pQbyQq.g2nTYW8rq0pZqVaSO
+email_blogAdmin: ascn@example.com

@@ -16,15 +16,15 @@ all:
 
   # APP variables
   ghost_ip: <GHOST_SERVICE_IP>     # Needs to be updated
-  ghost_port: <GHOST_PORT>         # Needs to be updated
+  ghost_port: 2368
 
   ghost_namespace: ghostNamespace
 
   # Additional variables
   # ...
-  database_host: 127.0.0.1
-  database_name: ghost
-  database_user: root
+  
+  database_name: ghost-database
+  database_user: ghost-user
   database_password: password123
 
   #provavelmente nao e assim
