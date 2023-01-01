@@ -1,24 +1,65 @@
+#kind: Deployment
+#apiVersion: apps/v1
+#metadata:
+#  name: mysql-deployment
+#  labels:
+#    app: mysql
+#spec:
+#  replicas: 1
+#  selector:
+#    matchLabels:
+#      app: mysql
+#  strategy: #???? necessario?
+#    type: Recreate
+#  template:
+#    metadata:
+#      labels:
+#        app: mysql
+#    spec:
+#      containers:
+#      - name: mysql
+#        image: mysql:8.0
+#        ports:
+#        - containerPort: 3306
+#        env:
+#        - name: MYSQL_ALLOW_EMPTY_PASSWORD
+#          value: "true"
+#        - name: MYSQL_DATABASE
+#          value: ghost-database
+#        - name: MYSQL_USER
+#          value: ghost-user
+#        - name: MYSQL_PASSWORD
+#          value: password123
+#        volumeMounts:
+#        - mountPath: /var/lib/mysql
+#          name: mysql-data
+#      volumes:
+#      - name: mysql-data
+#        persistentVolumeClaim:
+#          claimName: mysql-data-pvc
+
 kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: mysql-deployment
   labels:
     app: mysql
+    tier: database
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: mysql
-  strategy: #???? necessario?
+  strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app: mysql
+        tier: database
     spec:
       containers:
       - name: mysql
-        image: mysql:8.0
+        image: mysql:latest
         ports:
         - containerPort: 3306
         env:
@@ -36,7 +77,7 @@ spec:
       volumes:
       - name: mysql-data
         persistentVolumeClaim:
-          claimName: mysql-data-pvc
+          claimName: mysql-pv-claim
 
 #
 #    - name: mysql

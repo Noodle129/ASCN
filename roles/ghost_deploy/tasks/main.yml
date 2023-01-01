@@ -61,8 +61,8 @@
 #  when: EXISTENT_namespace.stdout == {{ghost_namespace}}
 #
 
-- name: Create Database Persistent Volume
-  shell: kubectl apply -f kubectl_files/db/db-pv.yml
+#- name: Create Database Persistent Volume
+#  shell: kubectl apply -f kubectl_files/db/db-pv.yml
 
 - name: Create Database Persistent Volume Claim
   shell: kubectl apply -f kubectl_files/db/db-pvc.yml
