@@ -1,0 +1,21 @@
+
+
+- name: Delete all Pods, Services and Deployments of Ghost
+  shell: kubectl delete pods,services,deployments -l app=ghost
+
+- name: Delete all Pods, Services and Deployments of Database
+  shell: kubectl delete pods,services,deployments -l app=mysql
+
+- name: Wait for Ghost Resources to be deleted
+  shell: kubectl get pods,services,deployments -l app=ghost
+  register: ghost_resources
+  until: ghost_resources.stdout == ""
+  retries: 10
+  delay: 10
+
+- name: Wait for Database Resources to be deleted
+  shell: kubectl get pods,services,deployments -l app=mysql
+  register: db_resources
+  until: db_resources.stdout == ""
+  retries: 10
+  delay: 10

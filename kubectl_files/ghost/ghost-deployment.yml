@@ -64,14 +64,17 @@ spec:
       containers:
       - name: ghost
         image: ghost:5.14.1
+        ports:
+        - containerPort: 2368
+          protocol: TCP
         env:
-        #- name: url
-        #  value: "????"
+        - name: url
+          value: http://34.170.169.113:80/
         - name: database__client # tipo de database
           value: mysql
         - name: database__connection__database
           value: ghost-database
-        - name: database__connection__host # ???????
+        - name: database__connection__host
           value: mysql-service
         - name: database__connection__user
           value: ghost-user

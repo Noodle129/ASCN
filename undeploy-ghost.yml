@@ -8,4 +8,4 @@
     - {role: ghost_undeploy}
     - {role: delete_data, when: "delete_data is defined and delete_data == 'true'"}
         
-  tags:
+  #tags:

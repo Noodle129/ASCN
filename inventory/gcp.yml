@@ -17,6 +17,9 @@ all:
   # APP variables
   ghost_ip: <GHOST_SERVICE_IP>     # Needs to be updated
   ghost_port: 2368
+  ghost_expose_port: 80
+
+  mysql_name_pod: <MYSQL_POD_NAME>     # Needs to be updated
 
   ghost_namespace: ghostNamespace
 
@@ -26,8 +29,10 @@ all:
   database_name: ghost-database
   database_user: ghost-user
   database_password: password123
+  database_host: mysql-service
 
-  #provavelmente nao e assim
-  ghost_url: http://{{ ghost_ip }}:{{ ghost_port }}
+
+  #ghost_url: "http://{{ ghost_ip }}:80/"
 
   version_ghost: 5.14.1
+

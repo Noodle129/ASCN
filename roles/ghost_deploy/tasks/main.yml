@@ -62,65 +62,113 @@
 #
 
 - name: Create Database Persistent Volume
-  shell: 'kubectl apply -f kubectl_files/db/db-pv.yml'
+  shell: kubectl apply -f kubectl_files/db/db-pv.yml
 
 - name: Create Database Persistent Volume Claim
-  shell: 'kubectl apply -f kubectl_files/db/db-pvc.yml'
+  shell: kubectl apply -f kubectl_files/db/db-pvc.yml
 
 - name: Create Database Deployment
-  shell: 'kubectl apply -f kubectl_files/db/db-deployment.yml'
+  shell: kubectl apply -f kubectl_files/db/db-deployment.yml
 
 - name: Create Database Service
-  shell: 'kubectl apply -f kubectl_files/db/db-service.yml'
-
-
-- name: Add Blog Admin to Ghost Database
-  community.mysql.mysql_query:
-    login_db: ghost-database
-    login_user: ghost-user
-    login_password: password123
-    query:
-    - UPDATE users SET name=%s, password=%s, email=%s, status='active' WHERE id=1;
-    positional_args:
-    - ascn
-    - \$2b\$10\$7MqQmsysAeQV6sDw0.CdNe07uyPr7pQbyQq.g2nTYW8rq0pZqVaSO
-    - ascn@example.com
-    single_transaction: yes
-
+  shell: kubectl apply -f kubectl_files/db/db-service.yml
 
 - name: Create Ghost Persistent Volume
-  shell: 'kubectl apply -f kubectl_files/ghost/ghost-pv.yml'
+  shell: kubectl apply -f kubectl_files/ghost/ghost-pv.yml
 
 - name: Create Ghost Persistent Volume Claim
-  shell: 'kubectl apply -f kubectl_files/ghost/ghost-pvc.yml'
-
-- name: Create Ghost Deployment
-  shell: 'kubectl apply -f kubectl_files/ghost/ghost-deployment.yml'
+  shell: kubectl apply -f kubectl_files/ghost/ghost-pvc.yml
 
 - name: Create Ghost Service
-  shell: 'kubectl apply -f kubectl_files/ghost/ghost-service.yml'
+  shell: kubectl apply -f kubectl_files/ghost/ghost-service.yml
 
-- name: Wait for Ghost Image to be exposed and get his IP #mudar para so procurar o ghost
-  shell: 'kubectl get services | grep ghost'
-  register: ghost_image_ip
-  until: ghost_image_ip.stdout.find("<pending>") == -1
-  retries: 10
-  delay: 20
+- name: Wait for Ghost Service and get his IP
+  shell: kubectl get services -l app=ghost -o jsonpath='{.items[0].status.loadBalancer.ingress[0].ip}'
+  register: ghost_ip
+  until: ghost_ip.stdout != ""
+  retries: 15
+  delay: 10
+
+- name: Display Ghost IP
+  debug:
+    msg: 'Ghost Image IP is: {{ ghost_ip.stdout }}'
+
+- name: Set Ghost IP
+  set_fact:
+    ghost_ip: "{{ ghost_ip.stdout }}"
+
+- name: Set Ghost URL on 'ghost-deployment.yml' file
+  lineinfile:
+    path: kubectl_files/ghost/ghost-deployment.yml
+    regexp: 'value: http://.*:80/'
+    line: '          value: http://{{ ghost_ip }}:80/'
+    state: present
+
+- name: Create Ghost Deployment
+  shell: kubectl apply -f kubectl_files/ghost/ghost-deployment.yml
+
 
 - name: Wait for Pod to be ready
-  shell: 'kubectl get pods | grep ghost'
+  shell: kubectl get pods -l app=ghost
   register: ghost_pod
   until: ghost_pod.stdout.find("1/1") != -1
   retries: 10
-  delay: 20
+  delay: 10
 
-- name: Display Ghost Image IP
-  debug:
-    msg: 'Ghost Image IP is \n{{ghost_image_ip.stdout}}'
+- name: Get MySQL Pod Name
+  shell: kubectl get pods -l app=mysql -o jsonpath='{.items[0].metadata.name}'
+  register: mysql_pod_name
+
+- name: Set Ghost Pod Name
+  set_fact:
+    mysql_name_pod: "{{ mysql_pod_name.stdout }}"
+
+- name: Update Database
+  #notify: Add Blog Admin Row to Ghost Database
+  # --host="mysql-service"
+  shell: kubectl exec "{{ mysql_name_pod }}" -- mysql --user="ghost-user" --password=="password123" --execute="USE "{{ database_name }}"; update users set name='ascn', password='\$2b\$10\$7MqQmsysAeQV6sDw0.CdNe07uyPr7pQbyQq.g2nTYW8rq0pZqVaSO', email='ascn@example.com', status='active' where id=1;"
+  #register: mysql_update
+  #until: mysql_update.stdout.find("Query OK") != -1
+  #retries: 3
+  #delay: 5
+
+
+
+- name: Test if Ghost is running
+  ansible.builtin.uri:
+    url: "http://{{ ghost_ip }}:80/"
+    method: GET
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 3
+  delay: 5
+
 #
+#
+#- name: Add Blog Admin Row to Ghost Database
+#  community.mysql.mysql_query:
+#    login_host: mysql-service
+#    login_db: ghost-database
+#    login_user: ghost-user
+#    login_password: password123
+#    query:
+#    - USE ghost;
+#    - UPDATE users SET name=%s, password=%s, email=%s, status='active' WHERE id=1;
+#    positional_args:
+#    - ascn
+#    - \$2b\$10\$7MqQmsysAeQV6sDw0.CdNe07uyPr7pQbyQq.g2nTYW8rq0pZqVaSO
+#    - ascn@example.com
+#    single_transaction: yes
 
-
-
+#- name: Get MySQL Pod Name
+#  shell: 'kubectl get pods -l app=mysql -o jsonpath="{.items[0].metadata.name}"'
+#  register: mysql_pod_name
+#
+#- name: Add Blog Admin to Ghost Database
+#  shell: kubectl exec -it {{mysql_pod_name.stdout_lines[0]}} -- mysql --host="mysql-service" --user="ghost-user" --password=="password123" --execute="USE ghost; update users set name='ascn', password='\$2b\$10\$7MqQmsysAeQV6sDw0.CdNe07uyPr7pQbyQq.g2nTYW8rq0pZqVaSO', email='ascn@example.com', status='active' where id=1;"
+#
+#
 #- name: Update apt-cache
 #  apt:
 #    - update_cache: true
