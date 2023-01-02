@@ -1,2 +1,21 @@
 ---
 
+- name: Delete Database PVC
+  shell: kubectl delete pv,pvc -l app=mysql
+
+- name: Delete Ghost PVC
+  shell: kubectl delete pv,pvc -l app=ghost
+
+- name: Wait for MYSQL PV to be deleted
+  shell: kubectl get pv,pvc -l app=mysql
+  register: mysqloutput
+  until: mysqloutput.stdout.find("No resources found") != -1
+  retries: 5
+  delay: 10
+
+- name: Wait for Ghost PV to be deleted
+  shell: kubectl get pv,pvc -l app=ghost
+  register: ghostoutput
+  until: ghostoutput.stdout.find("No resources found") != -1
+  retries: 5
+  delay: 10

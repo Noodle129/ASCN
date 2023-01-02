@@ -3,7 +3,7 @@ kind: PersistentVolume
 metadata:
   name: ghost-data-pv
   labels:
-    type: local
+    app: ghost
 spec:
   storageClassName: manual
   capacity:
