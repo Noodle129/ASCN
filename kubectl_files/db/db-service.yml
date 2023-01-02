@@ -31,6 +31,22 @@
 #    targetPort: 3306
 
 
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: mysql-service
+#  labels:
+#    app: mysql
+#    #tier: database
+#spec:
+#  type: ClusterIP
+#  selector:
+#    app: mysql
+#  ports:
+#    - protocol: TCP
+#      port: 3306
+#      targetPort: 3306
+
 
 apiVersion: v1
 kind: Service
@@ -38,13 +54,12 @@ metadata:
   name: mysql-service
   labels:
     app: mysql
-    #tier: database
+    tier: database
 spec:
   type: ClusterIP
   selector:
     app: mysql
   ports:
-    - protocol: TCP
       port: 3306
       targetPort: 3306
 
