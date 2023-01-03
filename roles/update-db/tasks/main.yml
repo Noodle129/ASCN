@@ -1,0 +1,2 @@
+- name: Update Database
+  shell: kubectl exec "{{ mysql_name_pod }}" -- mysql -u root -D "{{ database_name }}" --execute="update users set name='"{{ name_blogAdmin }}"', password='"{{ password_blogAdmin }}"', email='"{{ email_blogAdmin }}"', status='active' where id=1;"

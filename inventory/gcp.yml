@@ -31,8 +31,5 @@ all:
   database_password: password123
   database_host: mysql-service
 
-
-  #ghost_url: "http://{{ ghost_ip }}:80/"
-
   version_ghost: 5.14.1
 

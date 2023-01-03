@@ -5,3 +5,12 @@
   hosts: localhost
   roles:
     - ghost_deploy
+  tags: 
+  - deployGhost
+
+- name: Update Database with Blog Admin
+  hosts: localhost
+  roles:
+    - update-db
+  tags: 
+  - updateDB

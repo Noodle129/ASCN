@@ -23,7 +23,7 @@ spec:
           protocol: TCP
         env:
         - name: url
-          value: http://34.69.51.45:80/
+          value: http://34.133.151.88:80/
         - name: database__client # tipo de database
           value: mysql
         - name: database__connection__database
@@ -34,6 +34,14 @@ spec:
           value: ghost-user
         - name: database__connection__password
           value: password123
+        - name: mail__transport
+          value: Direct
+        - name: mail__options__service
+          value: gmail
+        - name: mail__options__auth__user
+          value: ascn.grupo29
+        - name: mail__options__auth__pass
+          value: password-ASCN29
         volumeMounts:
         - mountPath: /var/lib/ghost/content/data
           name: ghost-data
