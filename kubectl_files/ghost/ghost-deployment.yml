@@ -43,7 +43,7 @@ spec:
         - name: mail__options__auth__pass
           value: password-ASCN29
         volumeMounts:
-        - mountPath: /var/lib/ghost/content/data
+        - mountPath: /var/lib/ghost
           name: ghost-data
       volumes:
       - name: ghost-data
