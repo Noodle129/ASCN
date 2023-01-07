@@ -23,7 +23,7 @@ spec:
           protocol: TCP
         env:
         - name: url
-          value: http://34.133.151.88:80/
+          value: http://34.70.239.101:80/
         - name: database__client # tipo de database
           value: mysql
         - name: database__connection__database
@@ -35,15 +35,21 @@ spec:
         - name: database__connection__password
           value: password123
         - name: mail__transport
-          value: Direct
+          value: SMTP
         - name: mail__options__service
-          value: gmail
+          value: Mailgun
+        - name: mail__options__host
+          value: smtp.mailgun.org
+        - name: mail__options__secure
+          value: "true"
         - name: mail__options__auth__user
-          value: ascn.grupo29
+          value: postmaster@sandbox89446cc6acf246c788b6152a1ac591dd.mailgun.org
         - name: mail__options__auth__pass
-          value: password-ASCN29
+          value: ecd868b8e04a9568ec1a398f85be4e2b-cc9b2d04-17488386
+        - name: mail__options__port
+          value: "587"
         volumeMounts:
-        - mountPath: /var/lib/ghost
+        - mountPath: /var/lib/ghost/content
           name: ghost-data
       volumes:
       - name: ghost-data

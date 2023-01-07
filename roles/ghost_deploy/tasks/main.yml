@@ -1,4 +1,7 @@
 
+- name: Get GCE Credentials
+  shell: gcloud container clusters get-credentials ascn-cluster --zone "{{ gcp_zone }}" --project "{{ gcp_project }}"
+
 - name: Create Database Persistent Volume
   shell: kubectl apply -f kubectl_files/db/db-pv.yml
 
@@ -20,11 +23,11 @@
 - name: Create Ghost Service
   shell: kubectl apply -f kubectl_files/ghost/ghost-service.yml
 
-- name: Wait for Ghost Service and get his IP
+- name: Wait for Ghost Service to be ready
   shell: kubectl get services -l app=ghost -o jsonpath='{.items[0].status.loadBalancer.ingress[0].ip}'
   register: ghost_ip
   until: ghost_ip.stdout != ""
-  retries: 10
+  retries: 5
   delay: 10
 
 - name: Display Ghost IP
@@ -46,11 +49,11 @@
   shell: kubectl apply -f kubectl_files/ghost/ghost-deployment.yml
 
 
-- name: Wait for Pod to be ready
+- name: Wait for Ghost Pod to be ready
   shell: kubectl get pods -l app=ghost
   register: ghost_pod
   until: ghost_pod.stdout.find("1/1") != -1
-  retries: 10
+  retries: 5
   delay: 10
 
 - name: Get MySQL Pod Name
@@ -61,13 +64,6 @@
   set_fact:
     mysql_name_pod: "{{ mysql_pod_name.stdout }}"
 
-
 - name: Test if Ghost is running
-  ansible.builtin.uri:
-    url: "http://{{ ghost_ip }}:80/"
-    method: GET
-    status_code: 200
-  register: result
-  until: result.status == 200
-  retries: 3
-  delay: 5
+  include_role:
+    name: test_ghost
