@@ -23,7 +23,7 @@ spec:
           protocol: TCP
         env:
         - name: url
-          value: http://34.70.239.101:80/
+          value: http://34.72.66.203:80/
         - name: database__client # tipo de database
           value: mysql
         - name: database__connection__database
@@ -43,9 +43,9 @@ spec:
         - name: mail__options__secure
           value: "true"
         - name: mail__options__auth__user
-          value: ascn.grupo29@gmail.com
+          value: postmaster@sandbox89446cc6acf246c788b6152a1ac591dd.mailgun.org
         - name: mail__options__auth__pass
-          value: password-ASCN29
+          value: ecd868b8e04a9568ec1a398f85be4e2b-cc9b2d04-17488386
         - name: mail__options__port
           value: "587"
         volumeMounts:

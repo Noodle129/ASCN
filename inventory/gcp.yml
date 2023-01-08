@@ -28,10 +28,8 @@ all:
   
   database_name: ghost-database
   database_user: ghost-user
-  database_password: <DATABASE-PASSWORD>
   database_host: mysql-service
 
-  version_ghost: 5.14.1
+  version_ghost: "5.14.1"
 
-  mail: ascn.grupo29@gmail.com
-  password_gmail: <PASSWORD-GMAIL>
+  mail: postmaster@sandbox89446cc6acf246c788b6152a1ac591dd.mailgun.org

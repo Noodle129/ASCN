@@ -2,9 +2,8 @@
   shell: kubectl get pods -l app=mysql -o jsonpath='{.items[0].metadata.name}'
   register: mysql_pod_name
 
-- name: Set passwords and MySQL Pod name Facts
+- name: Set Pod name Fact
   set_fact:
-    password_blogAdmin: "{{ lookup('vault', 'secretFile.yml')['password_blogAdmin'] }}"
     mysql_name_pod: "{{ mysql_pod_name.stdout }}"
 
 - name: Update Database

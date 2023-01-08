@@ -3,6 +3,8 @@
 
 - name: Install ghost
   hosts: localhost
+  vars_files:
+    - secretFile.yml
   roles:
     - ghost_deploy
   tags: 
@@ -10,6 +12,8 @@
 
 - name: Update Database with Blog Admin
   hosts: localhost
+  vars_files:
+    - secretFile.yml
   roles:
     - update-db
   tags: 

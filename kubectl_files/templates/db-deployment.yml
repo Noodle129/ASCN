@@ -26,11 +26,11 @@ spec:
         - name: MYSQL_ALLOW_EMPTY_PASSWORD
           value: "true"
         - name: MYSQL_DATABASE
-          value: "{{ database_name }}"
+          value: {{ database_name }}
         - name: MYSQL_USER
-          value: "{{ database_user }}"
+          value: {{ database_user }}
         - name: MYSQL_PASSWORD
-          value: "{{ database_password }}"
+          value: {{ database_password }}
         volumeMounts:
         - mountPath: /var/lib/mysql
           name: mysql-data
