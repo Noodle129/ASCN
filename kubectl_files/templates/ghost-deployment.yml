@@ -17,23 +17,23 @@ spec:
     spec:
       containers:
       - name: ghost
-        image: ghost:5.14.1
+        image: ghost:"{{ version_ghost }}"
         ports:
         - containerPort: 2368
           protocol: TCP
         env:
         - name: url
-          value: http://34.70.239.101:80/
+          value: http://"{{ ghost_ip }}":"{{ ghost_expose_port }}"/
         - name: database__client # tipo de database
           value: mysql
         - name: database__connection__database
-          value: ghost-database
+          value: "{{ database_name }}"
         - name: database__connection__host
-          value: mysql-service
+          value: "{{ database_host }}"
         - name: database__connection__user
-          value: ghost-user
+          value: "{{ database_user }}"
         - name: database__connection__password
-          value: password123
+          value: {{ vault-database-password }}
         - name: mail__transport
           value: SMTP
         - name: mail__options__service
@@ -43,9 +43,9 @@ spec:
         - name: mail__options__secure
           value: "true"
         - name: mail__options__auth__user
-          value: ascn.grupo29@gmail.com
+          value: "{{ mail }}"
         - name: mail__options__auth__pass
-          value: password-ASCN29
+          value: {{ vault-mailgun-password }}
         - name: mail__options__port
           value: "587"
         volumeMounts:

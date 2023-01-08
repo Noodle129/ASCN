@@ -1,2 +1,11 @@
+- name: Get MySQL Pod Name
+  shell: kubectl get pods -l app=mysql -o jsonpath='{.items[0].metadata.name}'
+  register: mysql_pod_name
+
+- name: Set passwords and MySQL Pod name Facts
+  set_fact:
+    password_blogAdmin: "{{ lookup('vault', 'secretFile.yml')['password_blogAdmin'] }}"
+    mysql_name_pod: "{{ mysql_pod_name.stdout }}"
+
 - name: Update Database
   shell: kubectl exec "{{ mysql_name_pod }}" -- mysql -u root -D "{{ database_name }}" --execute="update users set name='"{{ name_blogAdmin }}"', password='"{{ password_blogAdmin }}"', email='"{{ email_blogAdmin }}"', status='active' where id=1;"

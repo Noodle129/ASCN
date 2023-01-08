@@ -8,6 +8,15 @@
 - name: Create Database Persistent Volume Claim
   shell: kubectl apply -f kubectl_files/db/db-pvc.yml
 
+- name: Set Database Password Fact
+  set_fact:
+    database_password: "{{ lookup('vault', 'secretFile.yml')['password_database'] }}"
+
+- name: Update Database Deployment File
+  template:
+    src: kubectl_files/templates/db-deployment.yml
+    dest: kubectl_files/db/db-deployment.yml
+
 - name: Create Database Deployment
   shell: kubectl apply -f kubectl_files/db/db-deployment.yml
 
@@ -34,16 +43,15 @@
   debug:
     msg: 'Ghost Image IP is: {{ ghost_ip.stdout }}'
 
-- name: Set Ghost IP
+- name: Set Ghost IP and Gmail Password Facts
   set_fact:
     ghost_ip: "{{ ghost_ip.stdout }}"
+    password_gmail: "{{ lookup('vault', 'secretFile.yml')['password_gmail'] }}"
 
-- name: Set Ghost URL on 'ghost-deployment.yml' file
-  lineinfile:
-    path: kubectl_files/ghost/ghost-deployment.yml
-    regexp: 'value: http://.*:80/'
-    line: '          value: http://{{ ghost_ip }}:80/'
-    state: present
+- name: Update Ghost Deployment File
+  template:
+    src: kubectl_files/templates/ghost-deployment.yml
+    dest: kubectl_files/ghost/ghost-deployment.yml
 
 - name: Create Ghost Deployment
   shell: kubectl apply -f kubectl_files/ghost/ghost-deployment.yml
