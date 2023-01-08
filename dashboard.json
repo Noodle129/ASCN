@@ -18,7 +18,6 @@
     }
   ],
   "displayName": "Ghost_Monitoring",
-  "etag": "a88dfd9f31b7cee15c6d588ad78c6c64",
   "mosaicLayout": {
     "columns": 12,
     "tiles": [
@@ -45,7 +44,7 @@
                       ],
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
-                    "filter": "metric.type=\"kubernetes.io/container/memory/used_bytes\" resource.type=\"k8s_container\" resource.label.\"project_id\"=\"{{ gcp_project }}\" resource.label.\"cluster_name\"=\"ascn-cluster\" resource.label.\"pod_name\"=monitoring.regex.full_match(\"(ghost-deployment-.*)|(mysql-deployment-.*)\")",
+                    "filter": "metric.type=\"kubernetes.io/container/memory/used_bytes\" resource.type=\"k8s_container\" resource.label.\"project_id\"=\"ghost-ascn-369115\" resource.label.\"cluster_name\"=\"ascn-cluster\" resource.label.\"pod_name\"=monitoring.regex.full_match(\"(ghost-deployment-.*)|(mysql-deployment-.*)\")",
                     "secondaryAggregation": {
                       "alignmentPeriod": "60s"
                     }
@@ -82,7 +81,7 @@
                       "crossSeriesReducer": "REDUCE_MEAN",
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
-                    "filter": "metric.type=\"kubernetes.io/container/cpu/request_utilization\" resource.type=\"k8s_container\" resource.label.\"project_id\"=\"{{ gcp_project }}\"",
+                    "filter": "metric.type=\"kubernetes.io/container/cpu/request_utilization\" resource.type=\"k8s_container\" resource.label.\"project_id\"=\"ghost-ascn-369115\"",
                     "secondaryAggregation": {
                       "alignmentPeriod": "60s"
                     }
@@ -120,7 +119,7 @@
                       "crossSeriesReducer": "REDUCE_SUM",
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
-                    "filter": "metric.type=\"kubernetes.io/container/ephemeral_storage/used_bytes\" resource.type=\"k8s_container\" resource.label.\"project_id\"=\"{{ gcp_project }}\"",
+                    "filter": "metric.type=\"kubernetes.io/container/ephemeral_storage/used_bytes\" resource.type=\"k8s_container\" resource.label.\"project_id\"=\"ghost-ascn-369115\"",
                     "secondaryAggregation": {
                       "alignmentPeriod": "60s"
                     }
@@ -142,7 +141,7 @@
         "height": 4,
         "widget": {
           "alertChart": {
-            "name": "projects/{{ gcp_project }}/alertPolicies/11084496963599617831"
+            "name": "projects/ghost-ascn-369115/alertPolicies/11084496963599617831"
           }
         },
         "width": 7,
