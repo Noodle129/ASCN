@@ -1,15 +1,15 @@
 ---
 
-- name: Get MySQL Pod Name
-  shell: kubectl get pods -l app=mysql -o jsonpath='{.items[0].metadata.name}'
-  register: mysql_pod_name
-
-- name: Set MySQL Pod Name
-  set_fact:
-    mysql_name_pod: "{{ mysql_pod_name.stdout }}"
-
-- name: Drop Database
-  shell: kubectl exec "{{ mysql_name_pod }}" -- mysql -u root --execute="DROP DATABASE `"{{ database_name }}"`;"
+#- name: Get MySQL Pod Name
+#  shell: kubectl get pods -l app=mysql -o jsonpath='{.items[0].metadata.name}'
+#  register: mysql_pod_name
+#
+#- name: Set MySQL Pod Name
+#  set_fact:
+#    mysql_name_pod: "{{ mysql_pod_name.stdout }}"
+#
+#- name: Drop Database
+#  shell: kubectl exec "{{ mysql_name_pod }}" -- mysql -u root --execute="DROP DATABASE `{{ database_name }}`;"
 
 - name: Delete Database PV(C)
   shell: kubectl delete pv,pvc -l app=mysql
