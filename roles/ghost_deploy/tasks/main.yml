@@ -10,7 +10,7 @@
 
 - name: Update Database Deployment File
   template:
-    src: kubectl_files/templates/db-deployment.yml
+    src: db-deployment.yml
     dest: kubectl_files/db/db-deployment.yml
 
 - name: Create Database Deployment
@@ -45,7 +45,7 @@
 
 - name: Update Ghost Deployment File
   template:
-    src: kubectl_files/templates/ghost-deployment.yml
+    src: ghost-deployment.yml
     dest: kubectl_files/ghost/ghost-deployment.yml
 
 - name: Create Ghost Deployment
@@ -72,14 +72,14 @@
     name: test_ghost
 
 - name: Check Dashboards
-  shell: 'gcloud monitoring dashboards list --filter="displayName=Ghost_Monitoring"'
+  shell: gcloud monitoring dashboards list --filter="displayName=Ghost_Monitoring"
   register: output_dashboard
 
 - name: Update Dashboard File
   template:
-    src: kubectl_files/templates/dashboard.yml
+    src: dashboard.yml
     dest: dashboard.json
 
 - name: Create Dashboard
-  when: output_dashboard.stdout.find("Listed 0 items.") == -1
-  shell: "gcloud monitoring dashboards create --config-from-file=dashboard.json"
+  shell: gcloud monitoring dashboards create --config-from-file=dashboard.json
+  when: output_dashboard.stdout == ""

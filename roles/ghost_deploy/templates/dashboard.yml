@@ -1,4 +1,3 @@
-
 {
   "dashboardFilters": [
     {
@@ -116,8 +115,8 @@
                   "timeSeriesFilter": {
                     "aggregation": {
                       "alignmentPeriod": "60s",
-                      "crossSeriesReducer": "REDUCE_SUM",
-                      "perSeriesAligner": "ALIGN_MEAN"
+                      "crossSeriesReducer": "REDUCE_PERCENTILE_99",
+                      "perSeriesAligner": "ALIGN_MAX"
                     },
                     "filter": "metric.type=\"kubernetes.io/container/ephemeral_storage/used_bytes\" resource.type=\"k8s_container\" resource.label.\"project_id\"=\"{{ gcp_project }}\"",
                     "secondaryAggregation": {
@@ -134,7 +133,7 @@
             }
           }
         },
-        "width": 5,
+        "width": 6,
         "yPos": 4
       },
       {
@@ -144,12 +143,91 @@
             "name": "projects/{{ gcp_project }}/alertPolicies/11084496963599617831"
           }
         },
-        "width": 7,
-        "xPos": 5,
+        "width": 6,
+        "xPos": 6,
         "yPos": 4
+      },
+      {
+        "height": 3,
+        "widget": {
+          "scorecard": {
+            "sparkChartView": {
+              "sparkChartType": "SPARK_LINE"
+            },
+            "timeSeriesQuery": {
+              "timeSeriesFilter": {
+                "aggregation": {
+                  "alignmentPeriod": "60s",
+                  "perSeriesAligner": "ALIGN_RATE"
+                },
+                "filter": "metric.type=\"kubernetes.io/node/logs/input_bytes\" resource.type=\"k8s_node\" resource.label.\"project_id\"=\"{{ gcp_project }}\"",
+                "secondaryAggregation": {
+                  "alignmentPeriod": "60s",
+                  "crossSeriesReducer": "REDUCE_MEAN",
+                  "perSeriesAligner": "ALIGN_MEAN"
+                }
+              }
+            }
+          },
+          "title": "Logging throughput for cluster"
+        },
+        "width": 4,
+        "yPos": 8
+      },
+      {
+        "height": 3,
+        "widget": {
+          "title": "Disk I/O time for cluster [MEAN]",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "minAlignmentPeriod": "60s",
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "aggregation": {
+                      "alignmentPeriod": "60s",
+                      "perSeriesAligner": "ALIGN_RATE"
+                    },
+                    "filter": "metric.type=\"agent.googleapis.com/disk/io_time\" resource.type=\"gce_instance\" resource.label.\"project_id\"=\"{{ gcp_project }}\"",
+                    "secondaryAggregation": {
+                      "alignmentPeriod": "60s",
+                      "crossSeriesReducer": "REDUCE_MEAN",
+                      "perSeriesAligner": "ALIGN_MEAN"
+                    }
+                  }
+                }
+              }
+            ],
+            "timeshiftDuration": "0s",
+            "yAxis": {
+              "label": "y1Axis",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 5,
+        "xPos": 4,
+        "yPos": 8
+      },
+      {
+        "height": 4,
+        "widget": {
+          "logsPanel": {
+            "resourceNames": [
+              "projects/166286760737"
+            ]
+          },
+          "title": "Logs from project"
+        },
+        "width": 9,
+        "yPos": 11
       }
     ]
   },
   "name": "projects/166286760737/dashboards/b28c1fee-63f7-4c7c-911a-e6701932b8f5"
 }
-  
