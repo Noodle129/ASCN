@@ -34,24 +34,17 @@ spec:
           value: {{ database_user }}
         - name: database__connection__password
           value: {{ database_password }}
+        - name: mail__options__service
+          value: Mailtrap
         - name: mail__transport
           value: SMTP
-        - name: mail__options__service
-          value: Google
         - name: mail__options__host
-          value: smtp.mailgun.org
-        - name: mail__options__secure
-          value: "true"
+          value: smtp.mailtrap.io
         - name: mail__options__auth__user
-          value: {{ mail }}
+          value: {{ user_mailtrap }} mudado
         - name: mail__options__auth__pass
-          value: {{ password_mail }}
+          value: {{ password_mailtrap }} mudado
         - name: mail__options__port
-          value: "587"
-        volumeMounts:
-        - mountPath: /var/lib/ghost/content
-          name: ghost-data
-      volumes:
-      - name: ghost-data
-        persistentVolumeClaim:
-          claimName: ghost-data-pvc
+          value: "2525"
+        - name: mail__from
+          value: "Admin Grupo29 <{{ mail }}>"

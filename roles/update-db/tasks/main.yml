@@ -7,4 +7,4 @@
     mysql_name_pod: "{{ mysql_pod_name.stdout }}"
 
 - name: Update Database
-  shell: kubectl exec "{{ mysql_name_pod }}" -- mysql -u root -D "{{ database_name }}" --execute="update users set name='"{{ name_blogAdmin }}"', password='"{{ password_blogAdmin }}"', email='"{{ email_blogAdmin }}"', status='active' where id=1;"
+  shell: kubectl exec {{ mysql_name_pod }} -- mysql --user="{{ database_user }}" --password="{{ database_password }}" --database="{{ database_name }}" --execute="update users set name='{{ name_blogAdmin }}', password='{{ password_blogAdmin }}', email='{{ email_blogAdmin }}', status='active' where id=1;"

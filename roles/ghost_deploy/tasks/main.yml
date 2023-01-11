@@ -2,8 +2,7 @@
 - name: Get GCE Credentials
   shell: gcloud container clusters get-credentials ascn-cluster --zone "{{ gcp_zone }}" --project "{{ gcp_project }}"
 
-- name: Create Database Persistent Volume
-  shell: kubectl apply -f kubectl_files/db/db-pv.yml
+
 
 - name: Create Database Persistent Volume Claim
   shell: kubectl apply -f kubectl_files/db/db-pvc.yml
@@ -19,11 +18,7 @@
 - name: Create Database Service
   shell: kubectl apply -f kubectl_files/db/db-service.yml
 
-- name: Create Ghost Persistent Volume
-  shell: kubectl apply -f kubectl_files/ghost/ghost-pv.yml
 
-- name: Create Ghost Persistent Volume Claim
-  shell: kubectl apply -f kubectl_files/ghost/ghost-pvc.yml
 
 - name: Create Ghost Service
   shell: kubectl apply -f kubectl_files/ghost/ghost-service.yml
@@ -32,8 +27,8 @@
   shell: kubectl get services -l app=ghost -o jsonpath='{.items[0].status.loadBalancer.ingress[0].ip}'
   register: ghost_ip
   until: ghost_ip.stdout != ""
-  retries: 5
-  delay: 10
+  retries: 7
+  delay: 11
 
 - name: Display Ghost IP
   debug:
@@ -52,12 +47,7 @@
   shell: kubectl apply -f kubectl_files/ghost/ghost-deployment.yml
 
 
-- name: Wait for Ghost Pod to be ready
-  shell: kubectl get pods -l app=ghost
-  register: ghost_pod
-  until: ghost_pod.stdout.find("1/1") != -1
-  retries: 5
-  delay: 10
+
 
 - name: Get MySQL Pod Name
   shell: kubectl get pods -l app=mysql -o jsonpath='{.items[0].metadata.name}'
@@ -67,19 +57,9 @@
   set_fact:
     mysql_name_pod: "{{ mysql_pod_name.stdout }}"
 
-- name: Test if Ghost is running
-  include_role:
-    name: test_ghost
-
-- name: Check Dashboards
-  shell: gcloud monitoring dashboards list --filter="displayName=Ghost_Monitoring"
-  register: output_dashboard
-
-- name: Update Dashboard File
-  template:
-    src: dashboard.yml
-    dest: dashboard.json
-
-- name: Create Dashboard
-  shell: gcloud monitoring dashboards create --config-from-file=dashboard.json
-  when: output_dashboard.stdout == ""
+- name: Wait for Ghost Pod to be ready
+  shell: kubectl get pods -l app=ghost
+  register: ghost_pod
+  until: ghost_pod.stdout.find("1/1") != -1
+  retries: 7
+  delay: 11

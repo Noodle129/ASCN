@@ -6,7 +6,8 @@
   vars_files:
     - secretFile.yml
   roles:
-    - ghost_deploy
+    - { role: ghost_deploy}
+    - { role: test_ghost }
   tags: 
   - deployGhost
 
@@ -18,3 +19,10 @@
     - update-db
   tags: 
   - updateDB
+
+- name: Create Ghost Monitoring Dashboard
+  hosts: localhost
+  roles:
+    - dashboard
+  tags: 
+  - dashboard

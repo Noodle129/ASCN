@@ -31,5 +31,3 @@ all:
   database_host: mysql-service
 
   version_ghost: 5.14.1
-
-  mail: postmaster@sandbox89446cc6acf246c788b6152a1ac591dd.mailgun.org

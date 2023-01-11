@@ -1,32 +1,15 @@
----
 
-#- name: Get MySQL Pod Name
-#  shell: kubectl get pods -l app=mysql -o jsonpath='{.items[0].metadata.name}'
-#  register: mysql_pod_name
-#
-#- name: Set MySQL Pod Name
-#  set_fact:
-#    mysql_name_pod: "{{ mysql_pod_name.stdout }}"
-#
-#- name: Drop Database
-#  shell: kubectl exec "{{ mysql_name_pod }}" -- mysql -u root --execute="DROP DATABASE `{{ database_name }}`;"
+- name: Get Database PVC name
+  shell: kubectl get pvc -l app=mysql -o jsonpath='{.items[0].spec.volumeName}'
+  register: mysql_pvc_name
 
-- name: Delete Database PV(C)
-  shell: kubectl delete pv,pvc -l app=mysql
+- name: Delete Database PVC
+  shell: kubectl delete pvc -l app=mysql
 
-- name: Delete Ghost PV(C)
-  shell: kubectl delete pv,pvc -l app=ghost
-
-- name: Wait for MYSQL PV(C) to be deleted
-  shell: kubectl get pv,pvc -l app=mysql
+- name: Wait for MYSQL PVC to be deleted
+  shell: kubectl get pvc -l app=mysql
   register: mysqloutput
   until: mysqloutput.stdout == ""
-  retries: 5
-  delay: 10
-
-- name: Wait for Ghost PV(C) to be deleted
-  shell: kubectl get pv,pvc -l app=ghost
-  register: ghostoutput
-  until: ghostoutput.stdout == ""
-  retries: 5
-  delay: 10
+  retries: 7
+  delay: 11
+  
