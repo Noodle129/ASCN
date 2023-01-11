@@ -43,7 +43,7 @@
                       ],
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
-                    "filter": "metric.type=\"kubernetes.io/container/memory/used_bytes\" resource.type=\"k8s_container\" resource.label.\"project_id\"=\"ghost-ascn-369115\" resource.label.\"cluster_name\"=\"ascn-cluster\" resource.label.\"pod_name\"=monitoring.regex.full_match(\"(ghost-deployment-.*)|(mysql-deployment-.*)\")",
+                    "filter": "metric.type=\"kubernetes.io/container/memory/used_bytes\" resource.type=\"k8s_container\" resource.label.\"project_id\"=\"{{ gcp_project }}\" resource.label.\"cluster_name\"=\"ascn-cluster\" resource.label.\"pod_name\"=monitoring.regex.full_match(\"(ghost-deployment-.*)|(mysql-deployment-.*)\")",
                     "secondaryAggregation": {
                       "alignmentPeriod": "60s"
                     }
@@ -80,7 +80,7 @@
                       "crossSeriesReducer": "REDUCE_MEAN",
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
-                    "filter": "metric.type=\"kubernetes.io/container/cpu/request_utilization\" resource.type=\"k8s_container\" resource.label.\"project_id\"=\"ghost-ascn-369115\"",
+                    "filter": "metric.type=\"kubernetes.io/container/cpu/request_utilization\" resource.type=\"k8s_container\" resource.label.\"project_id\"=\"{{ gcp_project }}\"",
                     "secondaryAggregation": {
                       "alignmentPeriod": "60s"
                     }
@@ -118,7 +118,7 @@
                       "crossSeriesReducer": "REDUCE_PERCENTILE_99",
                       "perSeriesAligner": "ALIGN_MAX"
                     },
-                    "filter": "metric.type=\"kubernetes.io/container/ephemeral_storage/used_bytes\" resource.type=\"k8s_container\" resource.label.\"project_id\"=\"ghost-ascn-369115\"",
+                    "filter": "metric.type=\"kubernetes.io/container/ephemeral_storage/used_bytes\" resource.type=\"k8s_container\" resource.label.\"project_id\"=\"{{ gcp_project }}\"",
                     "secondaryAggregation": {
                       "alignmentPeriod": "60s"
                     }
@@ -140,7 +140,7 @@
         "height": 4,
         "widget": {
           "alertChart": {
-            "name": "projects/ghost-ascn-369115/alertPolicies/11084496963599617831"
+            "name": "projects/{{ gcp_project }}/alertPolicies/11084496963599617831"
           }
         },
         "width": 6,
@@ -160,7 +160,7 @@
                   "alignmentPeriod": "60s",
                   "perSeriesAligner": "ALIGN_RATE"
                 },
-                "filter": "metric.type=\"kubernetes.io/node/logs/input_bytes\" resource.type=\"k8s_node\" resource.label.\"project_id\"=\"ghost-ascn-369115\"",
+                "filter": "metric.type=\"kubernetes.io/node/logs/input_bytes\" resource.type=\"k8s_node\" resource.label.\"project_id\"=\"{{ gcp_project }}\"",
                 "secondaryAggregation": {
                   "alignmentPeriod": "60s",
                   "crossSeriesReducer": "REDUCE_MEAN",
@@ -193,7 +193,7 @@
                       "alignmentPeriod": "60s",
                       "perSeriesAligner": "ALIGN_RATE"
                     },
-                    "filter": "metric.type=\"agent.googleapis.com/disk/io_time\" resource.type=\"gce_instance\" resource.label.\"project_id\"=\"ghost-ascn-369115\"",
+                    "filter": "metric.type=\"agent.googleapis.com/disk/io_time\" resource.type=\"gce_instance\" resource.label.\"project_id\"=\"{{ gcp_project }}\"",
                     "secondaryAggregation": {
                       "alignmentPeriod": "60s",
                       "crossSeriesReducer": "REDUCE_MEAN",
