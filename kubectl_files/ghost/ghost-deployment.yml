@@ -23,7 +23,7 @@ spec:
           protocol: TCP
         env:
         - name: url
-          value: http://34.70.239.101:80/
+          value: http://34.133.45.175:80/
         - name: database__client # tipo de database
           value: mysql
         - name: database__connection__database
@@ -34,24 +34,24 @@ spec:
           value: ghost-user
         - name: database__connection__password
           value: password123
+        - name: mail__options__service
+          value: Mailtrap
         - name: mail__transport
           value: SMTP
-        - name: mail__options__service
-          value: Google
         - name: mail__options__host
-          value: smtp.mailgun.org
-        - name: mail__options__secure
-          value: "true"
+          value: smtp.mailtrap.io
         - name: mail__options__auth__user
-          value: postmaster@sandbox89446cc6acf246c788b6152a1ac591dd.mailgun.org
+          value: 4c7e4be2b02840 mudado
         - name: mail__options__auth__pass
-          value: ecd868b8e04a9568ec1a398f85be4e2b-cc9b2d04-17488386
+          value: be53d3078e3b3c mudado
         - name: mail__options__port
-          value: "587"
-        volumeMounts:
-        - mountPath: /var/lib/ghost/content
-          name: ghost-data
-      volumes:
-      - name: ghost-data
-        persistentVolumeClaim:
-          claimName: ghost-data-pvc
+          value: "2525"
+        - name: mail__from
+          value: "Admin Grupo29 <ascn.grupo29@gmail.com>"
+        #volumeMounts:
+        #- mountPath: /var/lib/ghost/content
+        #  name: ghost-data
+      #volumes:
+      #- name: ghost-data
+      #  persistentVolumeClaim:
+      #    claimName: ghost-data-pvc
