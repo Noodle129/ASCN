@@ -1,59 +1,7 @@
-# mostrar que nao ha dashboard
-
-# dar deploy a dar skip-tag ao updateDB
-# mostrar que nao ha nada das tabelas do user
-# dar deploy a dar a fazer apenas a tag updateDB
-# mostrar que ha dados nas tabelas do user
-
-# mostrar dashboard
-
-# dar undeploy sem a flag delete_data
-# dar deploy normal
-# dar deploy a dar skip-tag ao updateDB
-# mostrar que dá para dar login
-
-# dar undeploy com a flag delete_data
-# dar deploy a dar skip-tag ao updateDB
-# mostrar que nao ha nada das tabelas do user
-
-- name: Check Dashboard
-  shell: gcloud monitoring dashboards list --filter="displayName=Ghost_Monitoring"
-  register: output_dashboard
-
-- name: Display Dashboard
-  debug:
-    msg: "{{ output_dashboard.stdout_lines[:5] }}"
-    #confirmar limite linhas
-
-
-- import_playbook: deploy-ghost.yml skip_tags='updateDB'
-
-- name: Check 'user' table from ghost
-  shell: kubectl exec -it {{ mysql_name_pod }} -D {{ database_name }}  -- mysql -u root -e "SELECT * FROM users;"
-  register: output_user_table
-  #tentar sem ser com  a root
-
-- import_playbook: deploy-ghost.yml tags='updateDB'
-
-- name: Check 'user' table from ghost
-  shell: kubectl exec -it {{ mysql_name_pod }} -D {{ database_name }}  -- mysql -u root -e "SELECT * FROM users;"
-  register: output_user_table
-  #tentar sem ser com  a root
+---
 
 - name: Tests
   hosts: localhost
   gather_facts: true
   roles:
-    - { role: test_ghost }
-
-- import_playbook: undeploy-ghost.yml
-
-- import_playbook: deploy-ghost.yml
-
-- name: Tests
-  hosts: localhost
-  gather_facts: yes
-  roles:
-    - { role: test_ghost }
-
-- import_playbook: undeploy-ghost.yml delete_data='true'
+    - test_1
