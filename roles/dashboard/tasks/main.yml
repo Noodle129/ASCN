@@ -1,6 +1,6 @@
 
 - name: Check Dashboards
-  shell: gcloud monitoring dashboards list --filter="displayName=Ghost_Monitoring"
+  shell: gcloud monitoring dashboards list --filter="displayName=Ghost_Monitoring" --format="value(name)"
   register: output_dashboard
 
 - name: Update Dashboard File
