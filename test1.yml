@@ -3,5 +3,7 @@
 - name: Tests
   hosts: localhost
   gather_facts: true
+  vars_files:
+    - secretFile.yml
   roles:
     - test_1

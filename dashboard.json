@@ -137,17 +137,6 @@
         "yPos": 4
       },
       {
-        "height": 4,
-        "widget": {
-          "alertChart": {
-            "name": "projects/ghost-ascn-369115/alertPolicies/11084496963599617831"
-          }
-        },
-        "width": 6,
-        "xPos": 6,
-        "yPos": 4
-      },
-      {
         "height": 3,
         "widget": {
           "scorecard": {
@@ -213,21 +202,7 @@
         "width": 5,
         "xPos": 4,
         "yPos": 8
-      },
-      {
-        "height": 4,
-        "widget": {
-          "logsPanel": {
-            "resourceNames": [
-              "projects/166286760737"
-            ]
-          },
-          "title": "Logs from project"
-        },
-        "width": 9,
-        "yPos": 11
       }
     ]
-  },
-  "name": "projects/166286760737/dashboards/b28c1fee-63f7-4c7c-911a-e6701932b8f5"
+  }
 }

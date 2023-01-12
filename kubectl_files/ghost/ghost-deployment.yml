@@ -23,7 +23,7 @@ spec:
           protocol: TCP
         env:
         - name: url
-          value: http://34.133.45.175:80/
+          value: http://35.193.65.111:80/
         - name: database__client # tipo de database
           value: mysql
         - name: database__connection__database

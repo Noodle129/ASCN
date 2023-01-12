@@ -18,31 +18,48 @@
 # dar deploy a dar skip-tag ao updateDB
 # mostrar que nao ha nada das tabelas do user
 
-# gcloud monitoring dashboards delete name...
 
 - name: Check Dashboard
-  shell: gcloud monitoring dashboards list --filter="displayName=Ghost_Monitoring"
+  shell: gcloud monitoring dashboards list --filter="displayName=Ghost_Monitoring" --format="value(name)"
+  register: output_dashboard
+# nao e suposto aparecer nenhuma info !!!
+# se aparecer fazer este comando:
+# gcloud monitoring dashboards delete [name...] -y
+
+- name: Display Dashboard
+  debug:
+    msg: "{{ output_dashboard.stdout_lines }}"
+
+- name: Deploy Ghost and create dashboard
+  - include_role:
+    name: ghost_deploy 
+  - include_role:
+    name: test_ghost
+  - include_role:
+    name: dashboard
+
+- name: Check Dashboard
+  shell: gcloud monitoring dashboards list --filter="displayName=Ghost_Monitoring" --format="value(name)"
   register: output_dashboard
 
 - name: Display Dashboard
   debug:
-    msg: "{{ output_dashboard.stdout_lines[:7] }}"
+    msg: "{{ output_dashboard.stdout_lines }}"
 
-- name: Deploy Ghost
+- name: Check 'user' table from ghost
+  shell: kubectl exec -it {{ mysql_name_pod }} -- mysql --user="{{ database_user }}" --password="{{ database_password }}" --database="{{ database_name }}" -e "SELECT * FROM users;"
+  register: output_user_table
+
+- name: Add Blog Admin
   include_role:
-    name: ghost_deploy
-#skip_tags='updateDB'
-    apply:
-      tags:
-        - install
-        - dashboard
-  tags:
-    - always
+    name: update-db
 
+- name: Check 'user' table from ghost
+  shell: kubectl exec -it {{ mysql_name_pod }} -- mysql --user="{{ database_user }}" --password="{{ database_password }}" --database="{{ database_name }}" -e "SELECT * FROM users;"
+  register: output_user_table
 
-#- name: Check 'user' table from ghost
-#  shell: kubectl exec -it {{ mysql_name_pod }} -- mysql --user="{{ database_user }}" --password="{{ database_password }}" --database="{{ database_name }}" -e "SELECT * FROM users;"
-#  register: output_user_table
+- name: 
+
 #
 #- import_playbook: deploy-ghost.yml tags='updateDB'
 #
