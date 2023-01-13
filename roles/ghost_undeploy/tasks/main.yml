@@ -12,15 +12,15 @@
   shell: kubectl get pods,services,deployments -l app=ghost
   register: ghost_resources
   until: ghost_resources.stdout == ""
-  retries: 10
-  delay: 10
+  retries: 11
+  delay: 11
 
 - name: Wait for Database Resources to be deleted
   shell: kubectl get pods,services,deployments -l app=mysql
   register: db_resources
   until: db_resources.stdout == ""
-  retries: 10
-  delay: 10
+  retries: 11
+  delay: 11
 
 - name: Get Dashboard Name
   shell: gcloud monitoring dashboards list --filter="displayName=Ghost_Monitoring" --format="value(name)"

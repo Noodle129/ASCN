@@ -11,5 +11,5 @@
   shell: kubectl get pvc -l app=mysql
   register: mysqloutput
   until: mysqloutput.stdout == ""
-  retries: 7
+  retries: 11
   delay: 11
