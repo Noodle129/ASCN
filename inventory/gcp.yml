@@ -19,12 +19,9 @@ all:
   ghost_port: 2368
   ghost_expose_port: 80
 
-  mysql_name_pod: <MYSQL_POD_NAME>     # Needs to be updated
-
-  ghost_namespace: ghostNamespace
-
   # Additional variables
   # ...
+  mysql_name_pod: <MYSQL_POD_NAME>     # Needs to be updated
   
   database_name: ghost-database
   database_user: ghost-user
