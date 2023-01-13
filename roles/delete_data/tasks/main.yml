@@ -7,15 +7,7 @@
   shell: kubectl delete pvc -l app=mysql
   when: mysql_pvc_name.stdout != ""
 
-- name: Get Dashboard Name
-  shell: gcloud monitoring dashboards list --filter="displayName=Ghost_Monitoring" --format="value(name)"
-  register: output_dashboard
-
-- name: Delete Dashboard
-  shell: gcloud monitoring dashboards delete {{ output_dashboard.stdout }} --zone "{{ gcp_zone }}" --quiet
-  when: output_dashboard.stdout != ""
-
-- name: Wait for MYSQL PVC to be deleted
+- name: Wait for Datbase PVC to be deleted
   shell: kubectl get pvc -l app=mysql
   register: mysqloutput
   until: mysqloutput.stdout == ""

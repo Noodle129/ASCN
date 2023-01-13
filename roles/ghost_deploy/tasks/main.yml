@@ -27,7 +27,7 @@
   shell: kubectl get services -l app=ghost -o jsonpath='{.items[0].status.loadBalancer.ingress[0].ip}'
   register: ghost_ip
   until: ghost_ip.stdout != ""
-  retries: 7
+  retries: 11
   delay: 11
 
 - name: Display Ghost IP
@@ -48,6 +48,13 @@
 
 
 
+- name: Get Ghost Pod Name
+  shell: kubectl get pods -l app=ghost -o jsonpath='{.items[0].metadata.name}'
+  register: ghost_pod_name
+
+- name: Set Ghost Pod Name
+  set_fact:
+    ghost_name_pod: "{{ ghost_pod_name.stdout }}"
 
 - name: Get MySQL Pod Name
   shell: kubectl get pods -l app=mysql -o jsonpath='{.items[0].metadata.name}'
@@ -61,5 +68,5 @@
   shell: kubectl get pods -l app=ghost
   register: ghost_pod
   until: ghost_pod.stdout.find("1/1") != -1
-  retries: 7
+  retries: 11
   delay: 11
