@@ -30,17 +30,15 @@
   debug:
     msg: "{{ output_dashboard.stdout_lines }}"
 
-- name: Deploy Ghost
-  - include_role:
-    name: ghost_deploy 
-
-- name: Test Ghost
-  - include_role:
-    name: test_ghost
-
-- name: Create dashboard
-  - include_role:
-    name: dashboard
+- name: Deploy Ghost + Test Ghost + Create dashboard
+  include_role:
+    name: '{{ roleinputvar }}' 
+  loop:
+    - ghost_deploy
+    - test_ghost
+    - dashboard
+  loop_control:
+    loop_var: roleinputvar
 
 - name: Check Dashboard
   shell: gcloud monitoring dashboards list --filter="displayName=Ghost_Monitoring" --format="value(name)"
@@ -54,6 +52,10 @@
   shell: kubectl exec -it {{ mysql_name_pod }} -- mysql --user="{{ database_user }}" --password="{{ database_password }}" --database="{{ database_name }}" -e "SELECT * FROM users;"
   register: output_user_table
 
+- name: Display 'user' table
+  debug:
+    msg: "{{ output_user_table.stdout_lines }}"
+
 - name: Add Blog Admin
   include_role:
     name: update-db
@@ -62,37 +64,53 @@
   shell: kubectl exec -it {{ mysql_name_pod }} -- mysql --user="{{ database_user }}" --password="{{ database_password }}" --database="{{ database_name }}" -e "SELECT * FROM users;"
   register: output_user_table
 
-- name: Undeploy Ghost (not deleting data)
-  include_role:
-    name: ghost_undeploy
+- name: Display 'user' table
+  debug:
+    msg: "{{ output_user_table.stdout_lines }}"
 
-- name: Deploy Ghost (not updating DB)
+- name: Undeploy Ghost (not deleting data) + Deploy Ghost (not updating DB)
   include_role:
-    name: ghost_deploy
+    name: '{{ roleinputvar }}'
+  loop:
+    - ghost_undeploy
+    - ghost_deploy
+  loop_control:
+    loop_var: roleinputvar
 
 - name: Check 'user' table from ghost
   shell: kubectl exec -it {{ mysql_name_pod }} -- mysql --user="{{ database_user }}" --password="{{ database_password }}" --database="{{ database_name }}" -e "SELECT * FROM users;"
   register: output_user_table
 
-- name: Undeploy Ghost (deleting data)
-  include_role:
-    name: ghost_undeploy
-  inlude_role:
-    name: delete_data
+- name: Display 'user' table
+  debug:
+    msg: "{{ output_user_table.stdout_lines }}"
 
-- name: Deploy Ghost (not updating DB)
+- name: Undeploy Ghost (deleting data) + Deploy Ghost (not updating DB)
   include_role:
-    name: ghost_deploy
+    name: '{{ roleinputvar }}'
+  loop:
+    - ghost_undeploy
+    - delete_data
+    - ghost_deploy
+  loop_control:
+    loop_var: roleinputvar
 
 - name: Check 'user' table from ghost
   shell: kubectl exec -it {{ mysql_name_pod }} -- mysql --user="{{ database_user }}" --password="{{ database_password }}" --database="{{ database_name }}" -e "SELECT * FROM users;"
   register: output_user_table
 
+- name: Display 'user' table
+  debug:
+    msg: "{{ output_user_table.stdout_lines }}"
+    
 - name: Undeploy Ghost (deleting data)
   include_role:
-    name: ghost_undeploy
-  inlude_role:
-    name: delete_data
+    name: '{{ roleinputvar }}'
+  loop:
+    - ghost_undeploy
+    - delete_data
+  loop_control:
+    loop_var: roleinputvar
 
 
 #

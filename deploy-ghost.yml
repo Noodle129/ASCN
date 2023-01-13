@@ -7,7 +7,7 @@
     - secretFile.yml
   roles:
     - { role: ghost_deploy}
-    - { role: test_ghost }
+    #- { role: test_ghost }
   tags: 
   - deployGhost
 
