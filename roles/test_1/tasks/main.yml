@@ -24,7 +24,7 @@
   register: output_dashboard
 # nao e suposto aparecer nenhuma info !!!
 # se aparecer fazer este comando:
-# gcloud monitoring dashboards delete [name...] -quiet
+# gcloud monitoring dashboards delete [name...]
 
 - name: Display Dashboard Info
   debug:
