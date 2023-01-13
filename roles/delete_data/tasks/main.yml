@@ -12,7 +12,7 @@
   register: output_dashboard
 
 - name: Delete Dashboard
-  shell: gcloud monitoring dashboards delete {{ output_dashboard.stdout }}
+  shell: gcloud monitoring dashboards delete {{ output_dashboard.stdout }} --quiet
   when: output_dashboard.stdout != ""
 
 - name: Wait for MYSQL PVC to be deleted

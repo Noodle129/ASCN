@@ -24,17 +24,21 @@
   register: output_dashboard
 # nao e suposto aparecer nenhuma info !!!
 # se aparecer fazer este comando:
-# gcloud monitoring dashboards delete [name...] -y
+# gcloud monitoring dashboards delete [name...] -quiet
 
-- name: Display Dashboard
+- name: Display Dashboard Info
   debug:
     msg: "{{ output_dashboard.stdout_lines }}"
 
-- name: Deploy Ghost and create dashboard
+- name: Deploy Ghost
   - include_role:
     name: ghost_deploy 
+
+- name: Test Ghost
   - include_role:
     name: test_ghost
+
+- name: Create dashboard
   - include_role:
     name: dashboard
 
@@ -42,7 +46,7 @@
   shell: gcloud monitoring dashboards list --filter="displayName=Ghost_Monitoring" --format="value(name)"
   register: output_dashboard
 
-- name: Display Dashboard
+- name: Display Dashboard Info
   debug:
     msg: "{{ output_dashboard.stdout_lines }}"
 
@@ -58,7 +62,38 @@
   shell: kubectl exec -it {{ mysql_name_pod }} -- mysql --user="{{ database_user }}" --password="{{ database_password }}" --database="{{ database_name }}" -e "SELECT * FROM users;"
   register: output_user_table
 
-- name: 
+- name: Undeploy Ghost (not deleting data)
+  include_role:
+    name: ghost_undeploy
+
+- name: Deploy Ghost (not updating DB)
+  include_role:
+    name: ghost_deploy
+
+- name: Check 'user' table from ghost
+  shell: kubectl exec -it {{ mysql_name_pod }} -- mysql --user="{{ database_user }}" --password="{{ database_password }}" --database="{{ database_name }}" -e "SELECT * FROM users;"
+  register: output_user_table
+
+- name: Undeploy Ghost (deleting data)
+  include_role:
+    name: ghost_undeploy
+  inlude_role:
+    name: delete_data
+
+- name: Deploy Ghost (not updating DB)
+  include_role:
+    name: ghost_deploy
+
+- name: Check 'user' table from ghost
+  shell: kubectl exec -it {{ mysql_name_pod }} -- mysql --user="{{ database_user }}" --password="{{ database_password }}" --database="{{ database_name }}" -e "SELECT * FROM users;"
+  register: output_user_table
+
+- name: Undeploy Ghost (deleting data)
+  include_role:
+    name: ghost_undeploy
+  inlude_role:
+    name: delete_data
+
 
 #
 #- import_playbook: deploy-ghost.yml tags='updateDB'
