@@ -21,13 +21,13 @@
     {
       "filterType": "RESOURCE_LABEL",
       "labelKey": "pod_name",
-      "stringValue": "ghost-deployment-568bcb667d-md62h",
+      "stringValue": "ghost-deployment-67d44dc4b9-9svdm",
       "templateVariable": "pod_name_ghost"
     },
     {
       "filterType": "RESOURCE_LABEL",
       "labelKey": "pod_name",
-      "stringValue": "mysql-deployment-5d758c5b98-fzrsd",
+      "stringValue": "mysql-deployment-5d758c5b98-qmqrg",
       "templateVariable": "pod_name_mysql"
     }
   ],
@@ -57,7 +57,7 @@
                       "crossSeriesReducer": "REDUCE_NONE",
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
-                    "filter": "metric.type=\"kubernetes.io/container/memory/used_bytes\" resource.type=\"k8s_container\" resource.label.\"pod_name\"=monitoring.regex.full_match(\"(ghost-deployment-568bcb667d-md62h)|(mysql-deployment-5d758c5b98-fzrsd)\") ${project_id} ${cluster_name}",
+                    "filter": "metric.type=\"kubernetes.io/container/memory/used_bytes\" resource.type=\"k8s_container\" resource.label.\"pod_name\"=monitoring.regex.full_match(\"(ghost-deployment-67d44dc4b9-9svdm)|(mysql-deployment-5d758c5b98-qmqrg)\") ${project_id} ${cluster_name}",
                     "secondaryAggregation": {
                       "alignmentPeriod": "60s",
                       "crossSeriesReducer": "REDUCE_NONE",

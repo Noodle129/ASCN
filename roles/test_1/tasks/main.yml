@@ -48,9 +48,18 @@
     name: '{{ roleinputvar }}'
   loop:
     - ghost_undeploy
+    - dashboard_delete
     - ghost_deploy
   loop_control:
     loop_var: roleinputvar
+
+- name: "[11-1]Check Dashboard"
+  shell: gcloud monitoring dashboards list --filter="displayName=Ghost_Monitoring" --format="value(name)"
+  register: output_dashboard
+
+- name: "[11-2]Display Dashboard Info (existe)"
+  debug:
+    msg: "{{ output_dashboard.stdout_lines }}"
 
 - name: "[12]Check 'members' table from ghost"
   shell: kubectl exec -it {{ mysql_name_pod }} -- mysql --user="{{ database_user }}" --password="{{ database_password }}" --database="{{ database_name }}" -e "SELECT * FROM members;"
