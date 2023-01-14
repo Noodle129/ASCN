@@ -39,7 +39,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Kubernetes Container - Memory usage by pod (filtered) [MEAN]",
+          "title": "Memory usage by Container (filtered by pod name) [MEAN]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -241,7 +241,7 @@
                   "crossSeriesReducer": "REDUCE_NONE",
                   "perSeriesAligner": "ALIGN_RATE"
                 },
-                "filter": "metric.type=\"kubernetes.io/node/logs/input_bytes\" resource.type=\"k8s_node\" resource.label.\"project_id\"=\"ghost-ascn-369115\"",
+                "filter": "metric.type=\"kubernetes.io/node/logs/input_bytes\" resource.type=\"k8s_node\" resource.label.\"project_id\"=\"{{gcp_project}}\"",
                 "secondaryAggregation": {
                   "alignmentPeriod": "60s",
                   "crossSeriesReducer": "REDUCE_MEAN",
@@ -251,7 +251,7 @@
               }
             }
           },
-          "title": "Logging throughput for ghost-ascn-369115 [MEAN]"
+          "title": "Logging throughput for {{gcp_project}} [MEAN]"
         },
         "width": 6,
         "xPos": 6,
@@ -260,7 +260,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Kubernetes Node - Total memory [5TH, 50TH and 95TH PERCENTILE]",
+          "title": "Kubernetes Node - Memory analysis",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -309,7 +309,7 @@
                   "timeSeriesFilter": {
                     "aggregation": {
                       "alignmentPeriod": "60s",
-                      "crossSeriesReducer": "REDUCE_PERCENTILE_05",
+                      "crossSeriesReducer": "REDUCE_PERCENTILE_50",
                       "groupByFields": [],
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
