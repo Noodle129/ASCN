@@ -23,6 +23,8 @@ spec:
         ports:
         - containerPort: 3306
         env:
+        - name: MYSQL_ALLOW_EMPTY_PASSWORD
+          value: "true"
         - name: MYSQL_DATABASE
           value: ghost-database
         - name: MYSQL_USER
