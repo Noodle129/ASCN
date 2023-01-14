@@ -41,9 +41,9 @@ spec:
         - name: mail__options__host
           value: smtp.mailtrap.io
         - name: mail__options__auth__user
-          value: {{ user_mailtrap }} mudado
+          value: {{ user_mailtrap }}
         - name: mail__options__auth__pass
-          value: {{ password_mailtrap }} mudado
+          value: {{ password_mailtrap }}
         - name: mail__options__port
           value: "2525"
         - name: mail__from

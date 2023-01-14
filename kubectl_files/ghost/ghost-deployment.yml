@@ -23,7 +23,7 @@ spec:
           protocol: TCP
         env:
         - name: url
-          value: http://34.170.179.34:80/
+          value: http://34.69.51.172:80/
         - name: database__client # tipo de database
           value: mysql
         - name: database__connection__database
@@ -41,9 +41,9 @@ spec:
         - name: mail__options__host
           value: smtp.mailtrap.io
         - name: mail__options__auth__user
-          value: 4c7e4be2b02840 mudado
+          value: 4c7e4be2b02840
         - name: mail__options__auth__pass
-          value: be53d3078e3b3c mudado
+          value: be53d3078e3b3c
         - name: mail__options__port
           value: "2525"
         - name: mail__from

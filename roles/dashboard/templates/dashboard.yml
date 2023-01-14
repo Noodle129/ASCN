@@ -31,7 +31,7 @@
       "templateVariable": "pod_name_mysql"
     }
   ],
-  "displayName": "Cópia de Ghost_Monitoring",
+  "displayName": "Ghost_Monitoring",
   "labels": {},
   "mosaicLayout": {
     "columns": 12,
