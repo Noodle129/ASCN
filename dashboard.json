@@ -21,13 +21,13 @@
     {
       "filterType": "RESOURCE_LABEL",
       "labelKey": "pod_name",
-      "stringValue": "ghost-deployment-78778bfc59-5bkk9",
+      "stringValue": "ghost-deployment-568bcb667d-hhj97",
       "templateVariable": "pod_name_ghost"
     },
     {
       "filterType": "RESOURCE_LABEL",
       "labelKey": "pod_name",
-      "stringValue": "mysql-deployment-5d758c5b98-t5qpx",
+      "stringValue": "mysql-deployment-5d758c5b98-7rtrj",
       "templateVariable": "pod_name_mysql"
     }
   ],
@@ -39,7 +39,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Kubernetes Container - Memory usage by pod (filtered) [MEAN]",
+          "title": "Memory usage by Container (filtered by pod name) [MEAN]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -57,7 +57,7 @@
                       "crossSeriesReducer": "REDUCE_NONE",
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
-                    "filter": "metric.type=\"kubernetes.io/container/memory/used_bytes\" resource.type=\"k8s_container\" resource.label.\"pod_name\"=monitoring.regex.full_match(\"(ghost-deployment-78778bfc59-5bkk9)|(mysql-deployment-5d758c5b98-t5qpx)\") ${project_id} ${cluster_name}",
+                    "filter": "metric.type=\"kubernetes.io/container/memory/used_bytes\" resource.type=\"k8s_container\" resource.label.\"pod_name\"=monitoring.regex.full_match(\"(ghost-deployment-568bcb667d-hhj97)|(mysql-deployment-5d758c5b98-7rtrj)\") ${project_id} ${cluster_name}",
                     "secondaryAggregation": {
                       "alignmentPeriod": "60s",
                       "crossSeriesReducer": "REDUCE_NONE",
@@ -260,7 +260,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Kubernetes Node - Total memory [5TH, 50TH and 95TH PERCENTILE]",
+          "title": "Kubernetes Node - Memory analysis",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -309,7 +309,7 @@
                   "timeSeriesFilter": {
                     "aggregation": {
                       "alignmentPeriod": "60s",
-                      "crossSeriesReducer": "REDUCE_PERCENTILE_05",
+                      "crossSeriesReducer": "REDUCE_PERCENTILE_50",
                       "groupByFields": [],
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
