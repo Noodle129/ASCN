@@ -4,25 +4,24 @@
 - name: Install ghost
   hosts: localhost
   vars_files:
-    - secretFile.yml
+  - secretFile.yml
   roles:
-    - { role: ghost_deploy}
-    #- { role: test_ghost }
+  - ghost_deploy
   tags: 
   - deployGhost
 
 - name: Update Database with Blog Admin
   hosts: localhost
   vars_files:
-    - secretFile.yml
+  - secretFile.yml
   roles:
-    - update-db
+  - update-db
   tags: 
   - updateDB
 
 - name: Create Ghost Monitoring Dashboard
   hosts: localhost
   roles:
-    - dashboard
+  - dashboard
   tags: 
   - dashboard

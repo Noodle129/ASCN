@@ -3,5 +3,18 @@
 - name: Undeploy Ghost
   hosts: localhost
   roles:
-    - {role: ghost_undeploy}
+  - ghost_undeploy
+  tags:
+  - undeployGhost
+
+- name: Delete Dashboard
+  hosts: localhost
+  roles:
+  - dashboard_delete
+  tags:
+  - deleteDashboard
+
+- name: Delete Data
+  hosts: localhost
+  roles:
     - {role: delete_data, when: "delete_data is defined and delete_data == 'true'"}
