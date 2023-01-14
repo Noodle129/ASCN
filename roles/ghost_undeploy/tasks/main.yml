@@ -21,11 +21,4 @@
   until: db_resources.stdout == ""
   retries: 11
   delay: 11
-
-- name: Get Dashboard Name
-  shell: gcloud monitoring dashboards list --filter="displayName=Ghost_Monitoring" --format="value(name)"
-  register: output_dashboard
-
-- name: Delete Dashboard
-  shell: gcloud monitoring dashboards delete {{ output_dashboard.stdout }} --quiet
-  when: output_dashboard.stdout != ""
+  
