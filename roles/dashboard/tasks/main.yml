@@ -2,6 +2,22 @@
   shell: gcloud monitoring dashboards list --filter="displayName=Ghost_Monitoring" --format="value(name)"
   register: output_dashboard
 
+- name: Get Ghost Pod Name
+  shell: kubectl get pods -l app=ghost -o jsonpath='{.items[0].metadata.name}'
+  register: ghost_pod_name
+
+- name: Set Ghost Pod Name
+  set_fact:
+    ghost_name_pod: "{{ ghost_pod_name.stdout }}"
+
+- name: Get MySQL Pod Name
+  shell: kubectl get pods -l app=mysql -o jsonpath='{.items[0].metadata.name}'
+  register: mysql_pod_name
+
+- name: Set MySQL Pod Name
+  set_fact:
+    mysql_name_pod: "{{ mysql_pod_name.stdout }}"
+
 - name: Update Dashboard File
   template:
     src: dashboard.yml

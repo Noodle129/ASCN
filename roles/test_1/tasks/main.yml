@@ -67,8 +67,6 @@
     - ghost_undeploy
     - delete_data
     - ghost_deploy
-    - update-db
-    - test_ghost
   loop_control:
     loop_var: roleinputvar
 
@@ -85,6 +83,7 @@
     name: '{{ roleinputvar }}'
   loop:
     - ghost_undeploy
+    - dashboard_delete
     - delete_data
     - dashboard_delete
   loop_control:
