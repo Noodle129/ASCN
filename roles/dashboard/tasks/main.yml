@@ -1,4 +1,3 @@
-
 - name: Check Dashboards
   shell: gcloud monitoring dashboards list --filter="displayName=Ghost_Monitoring" --format="value(name)"
   register: output_dashboard
@@ -9,6 +8,3 @@
     dest: dashboard.json
   when: output_dashboard.stdout == ""
 
-- name: Create 'Ghost_Monitoring' Dashboard
-  shell: gcloud monitoring dashboards create --config-from-file=dashboard.json
-  when: output_dashboard.stdout == ""
