@@ -155,8 +155,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Kubernetes Container - Ephemeral storage usage 
-          "title": "Kubernetes Container - CPU limit utilization [5TH, 50TH and 95TH PERCENTILE]",
+          "title": "Kubernetes Container - Ephemeral storage usage [5TH, 50TH and 95TH PERCENTILE]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -261,8 +260,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Kubernetes Node - Total memory 
-          "title": "Kubernetes Container - CPU limit utilization [5TH, 50TH and 95TH PERCENTILE]",
+          "title": "Kubernetes Node - Total memory [5TH, 50TH and 95TH PERCENTILE]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -335,7 +333,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Pod - Bytes received [95/50/5 PERCENTILE]",
+          "title": "Pod - Bytes received [5TH, 50TH and 95TH PERCENTILE]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -408,7 +406,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Pod - Bytes transmitted [95/50/5 PERCENTILE]",
+          "title": "Pod - Bytes transmitted [5TH, 50TH and 95TH PERCENTILE]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -606,8 +604,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "RTT latencies per GKE node 
-          "title": "Kubernetes Container - CPU limit utilization [5TH, 50TH and 95TH PERCENTILE]",
+          "title": "RTT latencies per GKE node [5TH, 50TH and 95TH PERCENTILE]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"

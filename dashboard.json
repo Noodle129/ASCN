@@ -21,13 +21,13 @@
     {
       "filterType": "RESOURCE_LABEL",
       "labelKey": "pod_name",
-      "stringValue": "ghost-deployment-568bcb667d-bnlgc",
+      "stringValue": "ghost-deployment-78778bfc59-5bkk9",
       "templateVariable": "pod_name_ghost"
     },
     {
       "filterType": "RESOURCE_LABEL",
       "labelKey": "pod_name",
-      "stringValue": "mysql-deployment-5d758c5b98-xcl29",
+      "stringValue": "mysql-deployment-5d758c5b98-t5qpx",
       "templateVariable": "pod_name_mysql"
     }
   ],
@@ -39,7 +39,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Kubernetes Container - Memory usage [MEAN]",
+          "title": "Kubernetes Container - Memory usage by pod (filtered) [MEAN]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -54,11 +54,10 @@
                   "timeSeriesFilter": {
                     "aggregation": {
                       "alignmentPeriod": "60s",
-                      "crossSeriesReducer": "REDUCE_MEAN",
-                      "groupByFields": [],
+                      "crossSeriesReducer": "REDUCE_NONE",
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
-                    "filter": "metric.type=\"kubernetes.io/container/memory/used_bytes\" resource.type=\"k8s_container\" ${pod_name_ghost} ${pod_name_mysql}",
+                    "filter": "metric.type=\"kubernetes.io/container/memory/used_bytes\" resource.type=\"k8s_container\" resource.label.\"pod_name\"=monitoring.regex.full_match(\"(ghost-deployment-78778bfc59-5bkk9)|(mysql-deployment-5d758c5b98-t5qpx)\") ${project_id} ${cluster_name}",
                     "secondaryAggregation": {
                       "alignmentPeriod": "60s",
                       "crossSeriesReducer": "REDUCE_NONE",
@@ -83,7 +82,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Kubernetes Container - CPU limit utilization [95TH PERCENTILE], ...",
+          "title": "Kubernetes Container - CPU limit utilization [5TH, 50TH and 95TH PERCENTILE]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -102,12 +101,7 @@
                       "groupByFields": [],
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
-                    "filter": "metric.type=\"kubernetes.io/container/cpu/limit_utilization\" resource.type=\"k8s_container\"",
-                    "secondaryAggregation": {
-                      "alignmentPeriod": "60s",
-                      "crossSeriesReducer": "REDUCE_NONE",
-                      "perSeriesAligner": "ALIGN_NONE"
-                    }
+                    "filter": "metric.type=\"kubernetes.io/container/cpu/limit_utilization\" resource.type=\"k8s_container\""
                   }
                 }
               },
@@ -124,12 +118,7 @@
                       "groupByFields": [],
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
-                    "filter": "metric.type=\"kubernetes.io/container/cpu/limit_utilization\" resource.type=\"k8s_container\"",
-                    "secondaryAggregation": {
-                      "alignmentPeriod": "60s",
-                      "crossSeriesReducer": "REDUCE_NONE",
-                      "perSeriesAligner": "ALIGN_NONE"
-                    }
+                    "filter": "metric.type=\"kubernetes.io/container/cpu/limit_utilization\" resource.type=\"k8s_container\""
                   }
                 }
               },
@@ -146,12 +135,7 @@
                       "groupByFields": [],
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
-                    "filter": "metric.type=\"kubernetes.io/container/cpu/limit_utilization\" resource.type=\"k8s_container\"",
-                    "secondaryAggregation": {
-                      "alignmentPeriod": "60s",
-                      "crossSeriesReducer": "REDUCE_NONE",
-                      "perSeriesAligner": "ALIGN_NONE"
-                    }
+                    "filter": "metric.type=\"kubernetes.io/container/cpu/limit_utilization\" resource.type=\"k8s_container\""
                   }
                 }
               }
@@ -171,7 +155,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Kubernetes Container - Ephemeral storage usage [95TH PERCENTILE], ...",
+          "title": "Kubernetes Container - Ephemeral storage usage [5TH, 50TH and 95TH PERCENTILE]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -190,12 +174,7 @@
                       "groupByFields": [],
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
-                    "filter": "metric.type=\"kubernetes.io/container/ephemeral_storage/used_bytes\" resource.type=\"k8s_container\" ${project_id}",
-                    "secondaryAggregation": {
-                      "alignmentPeriod": "60s",
-                      "crossSeriesReducer": "REDUCE_NONE",
-                      "perSeriesAligner": "ALIGN_NONE"
-                    }
+                    "filter": "metric.type=\"kubernetes.io/container/ephemeral_storage/used_bytes\" resource.type=\"k8s_container\" ${project_id}"
                   }
                 }
               },
@@ -212,12 +191,7 @@
                       "groupByFields": [],
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
-                    "filter": "metric.type=\"kubernetes.io/container/ephemeral_storage/used_bytes\" resource.type=\"k8s_container\" ${project_id}",
-                    "secondaryAggregation": {
-                      "alignmentPeriod": "60s",
-                      "crossSeriesReducer": "REDUCE_NONE",
-                      "perSeriesAligner": "ALIGN_NONE"
-                    }
+                    "filter": "metric.type=\"kubernetes.io/container/ephemeral_storage/used_bytes\" resource.type=\"k8s_container\" ${project_id}"
                   }
                 }
               },
@@ -234,12 +208,7 @@
                       "groupByFields": [],
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
-                    "filter": "metric.type=\"kubernetes.io/container/ephemeral_storage/used_bytes\" resource.type=\"k8s_container\" ${project_id}",
-                    "secondaryAggregation": {
-                      "alignmentPeriod": "60s",
-                      "crossSeriesReducer": "REDUCE_NONE",
-                      "perSeriesAligner": "ALIGN_NONE"
-                    }
+                    "filter": "metric.type=\"kubernetes.io/container/ephemeral_storage/used_bytes\" resource.type=\"k8s_container\" ${project_id}"
                   }
                 }
               }
@@ -291,7 +260,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Kubernetes Node - Total memory [50TH PERCENTILE], ...",
+          "title": "Kubernetes Node - Total memory [5TH, 50TH and 95TH PERCENTILE]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -310,12 +279,7 @@
                       "groupByFields": [],
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
-                    "filter": "metric.type=\"kubernetes.io/node/memory/total_bytes\" resource.type=\"k8s_node\" ${cluster_name}",
-                    "secondaryAggregation": {
-                      "alignmentPeriod": "60s",
-                      "crossSeriesReducer": "REDUCE_NONE",
-                      "perSeriesAligner": "ALIGN_NONE"
-                    }
+                    "filter": "metric.type=\"kubernetes.io/node/memory/total_bytes\" resource.type=\"k8s_node\" ${cluster_name}"
                   }
                 }
               },
@@ -332,12 +296,7 @@
                       "groupByFields": [],
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
-                    "filter": "metric.type=\"kubernetes.io/node/memory/used_bytes\" resource.type=\"k8s_node\"",
-                    "secondaryAggregation": {
-                      "alignmentPeriod": "60s",
-                      "crossSeriesReducer": "REDUCE_NONE",
-                      "perSeriesAligner": "ALIGN_NONE"
-                    }
+                    "filter": "metric.type=\"kubernetes.io/node/memory/used_bytes\" resource.type=\"k8s_node\""
                   }
                 }
               },
@@ -354,12 +313,7 @@
                       "groupByFields": [],
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
-                    "filter": "metric.type=\"kubernetes.io/node/memory/allocatable_bytes\" resource.type=\"k8s_node\" ${cluster_name}",
-                    "secondaryAggregation": {
-                      "alignmentPeriod": "60s",
-                      "crossSeriesReducer": "REDUCE_NONE",
-                      "perSeriesAligner": "ALIGN_NONE"
-                    }
+                    "filter": "metric.type=\"kubernetes.io/node/memory/allocatable_bytes\" resource.type=\"k8s_node\" ${cluster_name}"
                   }
                 }
               }
@@ -379,7 +333,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Pod - Bytes received [95/50/5 PERCENTILE]",
+          "title": "Pod - Bytes received [5TH, 50TH and 95TH PERCENTILE]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -398,12 +352,7 @@
                       "groupByFields": [],
                       "perSeriesAligner": "ALIGN_RATE"
                     },
-                    "filter": "metric.type=\"kubernetes.io/pod/network/received_bytes_count\" resource.type=\"k8s_pod\"",
-                    "secondaryAggregation": {
-                      "alignmentPeriod": "60s",
-                      "crossSeriesReducer": "REDUCE_NONE",
-                      "perSeriesAligner": "ALIGN_NONE"
-                    }
+                    "filter": "metric.type=\"kubernetes.io/pod/network/received_bytes_count\" resource.type=\"k8s_pod\""
                   }
                 }
               },
@@ -420,12 +369,7 @@
                       "groupByFields": [],
                       "perSeriesAligner": "ALIGN_RATE"
                     },
-                    "filter": "metric.type=\"kubernetes.io/pod/network/received_bytes_count\" resource.type=\"k8s_pod\"",
-                    "secondaryAggregation": {
-                      "alignmentPeriod": "60s",
-                      "crossSeriesReducer": "REDUCE_NONE",
-                      "perSeriesAligner": "ALIGN_NONE"
-                    }
+                    "filter": "metric.type=\"kubernetes.io/pod/network/received_bytes_count\" resource.type=\"k8s_pod\""
                   }
                 }
               },
@@ -442,12 +386,7 @@
                       "groupByFields": [],
                       "perSeriesAligner": "ALIGN_RATE"
                     },
-                    "filter": "metric.type=\"kubernetes.io/pod/network/received_bytes_count\" resource.type=\"k8s_pod\"",
-                    "secondaryAggregation": {
-                      "alignmentPeriod": "60s",
-                      "crossSeriesReducer": "REDUCE_NONE",
-                      "perSeriesAligner": "ALIGN_NONE"
-                    }
+                    "filter": "metric.type=\"kubernetes.io/pod/network/received_bytes_count\" resource.type=\"k8s_pod\""
                   }
                 }
               }
@@ -467,7 +406,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Pod - Bytes transmitted [95/50/5 PERCENTILE]",
+          "title": "Pod - Bytes transmitted [5TH, 50TH and 95TH PERCENTILE]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -486,12 +425,7 @@
                       "groupByFields": [],
                       "perSeriesAligner": "ALIGN_RATE"
                     },
-                    "filter": "metric.type=\"kubernetes.io/pod/network/sent_bytes_count\" resource.type=\"k8s_pod\"",
-                    "secondaryAggregation": {
-                      "alignmentPeriod": "60s",
-                      "crossSeriesReducer": "REDUCE_NONE",
-                      "perSeriesAligner": "ALIGN_NONE"
-                    }
+                    "filter": "metric.type=\"kubernetes.io/pod/network/sent_bytes_count\" resource.type=\"k8s_pod\""
                   }
                 }
               },
@@ -508,12 +442,7 @@
                       "groupByFields": [],
                       "perSeriesAligner": "ALIGN_RATE"
                     },
-                    "filter": "metric.type=\"kubernetes.io/pod/network/sent_bytes_count\" resource.type=\"k8s_pod\"",
-                    "secondaryAggregation": {
-                      "alignmentPeriod": "60s",
-                      "crossSeriesReducer": "REDUCE_NONE",
-                      "perSeriesAligner": "ALIGN_NONE"
-                    }
+                    "filter": "metric.type=\"kubernetes.io/pod/network/sent_bytes_count\" resource.type=\"k8s_pod\""
                   }
                 }
               },
@@ -530,12 +459,7 @@
                       "groupByFields": [],
                       "perSeriesAligner": "ALIGN_RATE"
                     },
-                    "filter": "metric.type=\"kubernetes.io/pod/network/sent_bytes_count\" resource.type=\"k8s_pod\"",
-                    "secondaryAggregation": {
-                      "alignmentPeriod": "60s",
-                      "crossSeriesReducer": "REDUCE_NONE",
-                      "perSeriesAligner": "ALIGN_NONE"
-                    }
+                    "filter": "metric.type=\"kubernetes.io/pod/network/sent_bytes_count\" resource.type=\"k8s_pod\""
                   }
                 }
               }
@@ -680,7 +604,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "RTT latencies per GKE node [50TH PERCENTILE], ...",
+          "title": "RTT latencies per GKE node [5TH, 50TH and 95TH PERCENTILE]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -699,12 +623,7 @@
                       "groupByFields": [],
                       "perSeriesAligner": "ALIGN_DELTA"
                     },
-                    "filter": "metric.type=\"networking.googleapis.com/node_flow/rtt\" resource.type=\"k8s_node\" ${project_id}",
-                    "secondaryAggregation": {
-                      "alignmentPeriod": "60s",
-                      "crossSeriesReducer": "REDUCE_NONE",
-                      "perSeriesAligner": "ALIGN_NONE"
-                    }
+                    "filter": "metric.type=\"networking.googleapis.com/node_flow/rtt\" resource.type=\"k8s_node\" ${project_id}"
                   }
                 }
               },
@@ -721,12 +640,7 @@
                       "groupByFields": [],
                       "perSeriesAligner": "ALIGN_DELTA"
                     },
-                    "filter": "metric.type=\"networking.googleapis.com/node_flow/rtt\" resource.type=\"k8s_node\" ${project_id}",
-                    "secondaryAggregation": {
-                      "alignmentPeriod": "60s",
-                      "crossSeriesReducer": "REDUCE_NONE",
-                      "perSeriesAligner": "ALIGN_NONE"
-                    }
+                    "filter": "metric.type=\"networking.googleapis.com/node_flow/rtt\" resource.type=\"k8s_node\" ${project_id}"
                   }
                 }
               },
@@ -743,12 +657,7 @@
                       "groupByFields": [],
                       "perSeriesAligner": "ALIGN_DELTA"
                     },
-                    "filter": "metric.type=\"networking.googleapis.com/node_flow/rtt\" resource.type=\"k8s_node\" ${project_id}",
-                    "secondaryAggregation": {
-                      "alignmentPeriod": "60s",
-                      "crossSeriesReducer": "REDUCE_NONE",
-                      "perSeriesAligner": "ALIGN_NONE"
-                    }
+                    "filter": "metric.type=\"networking.googleapis.com/node_flow/rtt\" resource.type=\"k8s_node\" ${project_id}"
                   }
                 }
               }
@@ -768,3 +677,4 @@
     ]
   }
 }
+
