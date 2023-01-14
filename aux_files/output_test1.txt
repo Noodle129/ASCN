@@ -1,0 +1,348 @@
+➜  ASCN git:(main) ✗ ansible-playbook -i inventory/gcp.yml --vault-password-file=password.txt test1.yml
+[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit
+localhost does not match 'all'
+
+PLAY [Tests] **********************************************************************************
+
+TASK [Gathering Facts] ************************************************************************
+ok: [localhost]
+
+TASK [test_1 : [1]Check Dashboard] ************************************************************
+changed: [localhost]
+
+TASK [test_1 : [2]Display Dashboard Info (nao existe)] ****************************************
+ok: [localhost] => {
+    "msg": []
+}
+
+TASK [[3]Deploy Ghost + Test Ghost + Create dashboard] ****************************************
+
+TASK [ghost_deploy : Get GCE Credentials] *****************************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Create Database Persistent Volume Claim] *********************************
+changed: [localhost]
+
+TASK [ghost_deploy : Update Database Deployment File] *****************************************
+ok: [localhost]
+
+TASK [ghost_deploy : Create Database Deployment] **********************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Create Database Service] *************************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Create Ghost Service] ****************************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Wait for Ghost Service to be ready] **************************************
+FAILED - RETRYING: [localhost]: Wait for Ghost Service to be ready (11 retries left).
+FAILED - RETRYING: [localhost]: Wait for Ghost Service to be ready (10 retries left).
+FAILED - RETRYING: [localhost]: Wait for Ghost Service to be ready (9 retries left).
+changed: [localhost]
+
+TASK [ghost_deploy : Display Ghost IP] ********************************************************
+ok: [localhost] => {
+    "msg": "Ghost Image IP is: 34.69.51.172"
+}
+
+TASK [ghost_deploy : Set Ghost IP] ************************************************************
+ok: [localhost]
+
+TASK [ghost_deploy : Update Ghost Deployment File] ********************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Create Ghost Deployment] *************************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Get Ghost Pod Name] ******************************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Set Ghost Pod Name] ******************************************************
+ok: [localhost]
+
+TASK [ghost_deploy : Get MySQL Pod Name] ******************************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Set MySQL Pod Name] ******************************************************
+ok: [localhost]
+
+TASK [ghost_deploy : Wait for Ghost Pod to be ready] ******************************************
+changed: [localhost]
+
+TASK [test_ghost : Refresh inventory] *********************************************************
+
+TASK [test_ghost : Check that you can connect (GET) to Ghost and it returns a status 200] *****
+FAILED - RETRYING: [localhost]: Check that you can connect (GET) to Ghost and it returns a status 200 (5 retries left).
+ok: [localhost]
+
+TASK [dashboard : Check Dashboards] ***********************************************************
+changed: [localhost]
+
+TASK [dashboard : Update Dashboard File] ******************************************************
+changed: [localhost]
+
+TASK [dashboard : Create 'Ghost_Monitoring' Dashboard] ****************************************
+changed: [localhost]
+
+TASK [test_1 : [4]Check Dashboard] ************************************************************
+changed: [localhost]
+
+TASK [test_1 : [5]Display Dashboard Info (existe)] ********************************************
+ok: [localhost] => {
+    "msg": [
+        "projects/166286760737/dashboards/fceedade-eba4-4db0-9f19-6cf435092255"
+    ]
+}
+
+TASK [test_1 : [6]Check 'members' table from ghost] *******************************************
+changed: [localhost]
+
+TASK [test_1 : [7]Display 'members' table (vazia)] ********************************************
+ok: [localhost] => {
+    "msg": []
+}
+
+TASK [test_1 : [8]Add Member to Ghost] ********************************************************
+changed: [localhost]
+
+TASK [test_1 : [9]Check 'members' table from ghost] *******************************************
+changed: [localhost]
+
+TASK [test_1 : [10]Display 'members' table (com 1 member)] ************************************
+ok: [localhost] => {
+    "msg": [
+        "id\tuuid\temail\tstatus\tname\texpertise\tnote\tgeolocation\tenable_comment_notifications\temail_count\temail_opened_count\temail_open_rate\tlast_seen_at\tlast_commented_at\tcreated_at\tcreated_by\tupdated_at\tupdated_by",
+        "63bbfff67b5ec6000134fa92\t411fcafd-2f9c-431f-9dd0-ed50116b1e65\ttdeste@example.com\tfree\tteste\tNULL\tNULL\tNULL\t1\t0\t0\tNULL\t2023-01-14 17:12:03\tNULL\t2023-01-14 17:12:03\t63bbfff67b5ec6000134fa9b\t2023-01-09 11:52:24\t63bbfff67b5ec6000134fa9b"
+    ]
+}
+
+TASK [[11]Undeploy Ghost (not deleting data) + Deploy Ghost] **********************************
+
+TASK [ghost_undeploy : Get GCE Credentials] ***************************************************
+changed: [localhost]
+
+TASK [ghost_undeploy : Delete all Pods, Services and Deployments of Ghost] ********************
+changed: [localhost]
+
+TASK [ghost_undeploy : Delete all Pods, Services and Deployments of Database] *****************
+changed: [localhost]
+
+TASK [ghost_undeploy : Wait for Ghost Resources to be deleted] ********************************
+changed: [localhost]
+
+TASK [ghost_undeploy : Wait for Database Resources to be deleted] *****************************
+FAILED - RETRYING: [localhost]: Wait for Database Resources to be deleted (11 retries left).
+FAILED - RETRYING: [localhost]: Wait for Database Resources to be deleted (10 retries left).
+changed: [localhost]
+
+TASK [ghost_deploy : Get GCE Credentials] *****************************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Create Database Persistent Volume Claim] *********************************
+changed: [localhost]
+
+TASK [ghost_deploy : Update Database Deployment File] *****************************************
+ok: [localhost]
+
+TASK [ghost_deploy : Create Database Deployment] **********************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Create Database Service] *************************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Create Ghost Service] ****************************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Wait for Ghost Service to be ready] **************************************
+FAILED - RETRYING: [localhost]: Wait for Ghost Service to be ready (11 retries left).
+FAILED - RETRYING: [localhost]: Wait for Ghost Service to be ready (10 retries left).
+FAILED - RETRYING: [localhost]: Wait for Ghost Service to be ready (9 retries left).
+FAILED - RETRYING: [localhost]: Wait for Ghost Service to be ready (8 retries left).
+changed: [localhost]
+
+TASK [ghost_deploy : Display Ghost IP] ********************************************************
+ok: [localhost] => {
+    "msg": "Ghost Image IP is: 34.132.12.14"
+}
+
+TASK [ghost_deploy : Set Ghost IP] ************************************************************
+ok: [localhost]
+
+TASK [ghost_deploy : Update Ghost Deployment File] ********************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Create Ghost Deployment] *************************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Get Ghost Pod Name] ******************************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Set Ghost Pod Name] ******************************************************
+ok: [localhost]
+
+TASK [ghost_deploy : Get MySQL Pod Name] ******************************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Set MySQL Pod Name] ******************************************************
+ok: [localhost]
+
+TASK [ghost_deploy : Wait for Ghost Pod to be ready] ******************************************
+changed: [localhost]
+
+TASK [test_1 : [12]Check 'members' table from ghost] ******************************************
+changed: [localhost]
+
+TASK [test_1 : [13]Display 'members' table (com 1 member)] ************************************
+ok: [localhost] => {
+    "msg": [
+        "id\tuuid\temail\tstatus\tname\texpertise\tnote\tgeolocation\tenable_comment_notifications\temail_count\temail_opened_count\temail_open_rate\tlast_seen_at\tlast_commented_at\tcreated_at\tcreated_by\tupdated_at\tupdated_by",
+        "63bbfff67b5ec6000134fa92\t411fcafd-2f9c-431f-9dd0-ed50116b1e65\ttdeste@example.com\tfree\tteste\tNULL\tNULL\tNULL\t1\t0\t0\tNULL\t2023-01-14 17:12:03\tNULL\t2023-01-14 17:12:03\t63bbfff67b5ec6000134fa9b\t2023-01-09 11:52:24\t63bbfff67b5ec6000134fa9b"
+    ]
+}
+
+TASK [[14]Undeploy Ghost (deleting data) + Deploy Ghost] **************************************
+
+TASK [ghost_undeploy : Get GCE Credentials] ***************************************************
+changed: [localhost]
+
+TASK [ghost_undeploy : Delete all Pods, Services and Deployments of Ghost] ********************
+changed: [localhost]
+
+TASK [ghost_undeploy : Delete all Pods, Services and Deployments of Database] *****************
+changed: [localhost]
+
+TASK [ghost_undeploy : Wait for Ghost Resources to be deleted] ********************************
+changed: [localhost]
+
+TASK [ghost_undeploy : Wait for Database Resources to be deleted] *****************************
+FAILED - RETRYING: [localhost]: Wait for Database Resources to be deleted (11 retries left).
+FAILED - RETRYING: [localhost]: Wait for Database Resources to be deleted (10 retries left).
+FAILED - RETRYING: [localhost]: Wait for Database Resources to be deleted (9 retries left).
+changed: [localhost]
+
+TASK [delete_data : Get Database PVC name] ****************************************************
+changed: [localhost]
+
+TASK [delete_data : Delete Database PVC] ******************************************************
+changed: [localhost]
+
+TASK [delete_data : Wait for Datbase PVC to be deleted] ***************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Get GCE Credentials] *****************************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Create Database Persistent Volume Claim] *********************************
+changed: [localhost]
+
+TASK [ghost_deploy : Update Database Deployment File] *****************************************
+ok: [localhost]
+
+TASK [ghost_deploy : Create Database Deployment] **********************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Create Database Service] *************************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Create Ghost Service] ****************************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Wait for Ghost Service to be ready] **************************************
+FAILED - RETRYING: [localhost]: Wait for Ghost Service to be ready (11 retries left).
+FAILED - RETRYING: [localhost]: Wait for Ghost Service to be ready (10 retries left).
+FAILED - RETRYING: [localhost]: Wait for Ghost Service to be ready (9 retries left).
+FAILED - RETRYING: [localhost]: Wait for Ghost Service to be ready (8 retries left).
+changed: [localhost]
+
+TASK [ghost_deploy : Display Ghost IP] ********************************************************
+ok: [localhost] => {
+    "msg": "Ghost Image IP is: 34.29.22.2"
+}
+
+TASK [ghost_deploy : Set Ghost IP] ************************************************************
+ok: [localhost]
+
+TASK [ghost_deploy : Update Ghost Deployment File] ********************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Create Ghost Deployment] *************************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Get Ghost Pod Name] ******************************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Set Ghost Pod Name] ******************************************************
+ok: [localhost]
+
+TASK [ghost_deploy : Get MySQL Pod Name] ******************************************************
+changed: [localhost]
+
+TASK [ghost_deploy : Set MySQL Pod Name] ******************************************************
+ok: [localhost]
+
+TASK [ghost_deploy : Wait for Ghost Pod to be ready] ******************************************
+changed: [localhost]
+
+TASK [update-db : Get MySQL Pod Name] *********************************************************
+changed: [localhost]
+
+TASK [update-db : Set Pod name Fact] **********************************************************
+ok: [localhost]
+
+TASK [update-db : Update Database] ************************************************************
+changed: [localhost]
+
+TASK [test_ghost : Refresh inventory] *********************************************************
+
+TASK [test_ghost : Check that you can connect (GET) to Ghost and it returns a status 200] *****
+FAILED - RETRYING: [localhost]: Check that you can connect (GET) to Ghost and it returns a status 200 (5 retries left).
+FAILED - RETRYING: [localhost]: Check that you can connect (GET) to Ghost and it returns a status 200 (4 retries left).
+ok: [localhost]
+
+TASK [test_1 : [16]Check 'members' table from ghost] ******************************************
+changed: [localhost]
+
+TASK [test_1 : [17]Display 'members' table (vazia)] *******************************************
+ok: [localhost] => {
+    "msg": []
+}
+
+TASK [[18]Undeploy Ghost (deleting data)] *****************************************************
+
+TASK [ghost_undeploy : Get GCE Credentials] ***************************************************
+changed: [localhost]
+
+TASK [ghost_undeploy : Delete all Pods, Services and Deployments of Ghost] ********************
+changed: [localhost]
+
+TASK [ghost_undeploy : Delete all Pods, Services and Deployments of Database] *****************
+changed: [localhost]
+
+TASK [ghost_undeploy : Wait for Ghost Resources to be deleted] ********************************
+changed: [localhost]
+
+TASK [ghost_undeploy : Wait for Database Resources to be deleted] *****************************
+FAILED - RETRYING: [localhost]: Wait for Database Resources to be deleted (11 retries left).
+FAILED - RETRYING: [localhost]: Wait for Database Resources to be deleted (10 retries left).
+FAILED - RETRYING: [localhost]: Wait for Database Resources to be deleted (9 retries left).
+changed: [localhost]
+
+TASK [delete_data : Get Database PVC name] ****************************************************
+changed: [localhost]
+
+TASK [delete_data : Delete Database PVC] ******************************************************
+changed: [localhost]
+
+TASK [delete_data : Wait for Datbase PVC to be deleted] ***************************************
+changed: [localhost]
+
+TASK [dashboard_delete : Get Dashboard Name] **************************************************
+changed: [localhost]
+
+TASK [dashboard_delete : Delete Dashboard] ****************************************************
+changed: [localhost]
+
+PLAY RECAP ************************************************************************************
+localhost                  : ok=93   changed=68   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
