@@ -10,6 +10,13 @@
   tags: 
   - deployGhost
 
+- name: Test Ghost
+  hosts: localhost
+  roles:
+  - test-ghost
+  tags: 
+  - test
+
 - name: Update Database with Blog Admin
   hosts: localhost
   vars_files:
