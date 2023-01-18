@@ -13,7 +13,7 @@
 - name: Test Ghost
   hosts: localhost
   roles:
-  - test-ghost
+  - test_ghost
   tags: 
   - test
 
